@@ -2,24 +2,33 @@
 // https://aboutreact.com/react-native-navigation-drawer //
 import * as React from 'react';
 import { Button, View, Text, SafeAreaView } from 'react-native';
+//https://www.npmjs.com/package/react-native-super-grid
 import { FlatGrid } from 'react-native-super-grid';
 
 import CalcButton from './CalcComponents/CalcButton'
 import calcStyle from './CalcComponents/styles/style'
 
 
-const CalcPage = ({ navigation }) => {
-  const data = ['수수료 계산', 'DTI', '청약 가점 계산', 'LYV',]
+const CalcPage = ({ navigation }) => {  
+  const [items, itemId] = React.useState([
+    {title: '수수료계산', id: '1'},
+    {title: 'DTI', id: '2'},
+    {title: '청약 가점 계산', id: '3'},
+    {title: 'LTV', id: '4'},
+    {title: '전/월세 계산', id: '5'},
+    {title: '종합 부동산세', id: '6'},
+  ])
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 16 }}>
         <FlatGrid
           style={calcStyle.gridView}
           itemDimension={150}
-          data={['수수료 계산', 'DTI', '청약 가점 계산', 'LTV', '전.월세 계산', '종합 부동산세']}
+          data={items}
           renderItem={({ item }) => (
             <View style={[calcStyle.itemContainer]}>
-              <CalcButton title={item} />
+            <CalcButton title={item.title} id={item.id} />
             </View>
           )}
         />

@@ -7,6 +7,7 @@ import calcStyle from './styles/style.js'
 export default class CalcButton extends Component {
     constructor(props) {
         super(props);
+        console.log(this.props.id);
     }
     render() {
         return (

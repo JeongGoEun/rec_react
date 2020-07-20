@@ -6,7 +6,6 @@ const styles = StyleSheet.create({
     gridView: {
       marginTop: 30,
       flex: 1,
-
     },
     itemContainer: {
       justifyContent: 'center',
