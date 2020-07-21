@@ -10,8 +10,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CalcPage from './pages/CalcPage';
-import HousePage from './pages/HousePage';
+import HousePage from './pages/House/HousePage';
 import NewsPage from './pages/NewsPage';
+
+import House_Date from './pages/House/House_Date';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -108,6 +110,30 @@ function newsScreenStack({ navigation }) {
   );
 }
 
+function House_Date_Stack({ navigation }) {
+  return (
+    <Stack.Navigator
+      initialRouteName="House_Date_Page"
+      screenOptions={{
+        headerLeft: ()=> <NavigationDrawerStructure navigationProps={navigation} />,
+        headerStyle: {
+          backgroundColor: '#545045', //Set Header color
+        },
+        headerTintColor: '#fff', //Set Header text color
+        headerTitleStyle: {
+          //fontWeight: 'bold', //Set Header text style
+        }
+      }}>
+      <Stack.Screen
+        name="House_Date_Page"
+        component={House_Date}
+        options={{
+          title: '내 집 마련', //Set Header Title          
+        }}/>
+    </Stack.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
@@ -127,8 +153,13 @@ function App() {
         <Drawer.Screen
           name="NewsPage"
           options={{ drawerLabel: '부동산 뉴스' }}
-          component={newsScreenStack} />
+          component={newsScreenStack} />        
+        <Drawer.Screen
+        name="House_Date_Page"
+        options={{ drawerLabel: () => null,}}
+        component={House_Date_Stack} />
       </Drawer.Navigator>
+
     </NavigationContainer>
   );
 }
