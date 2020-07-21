@@ -11,6 +11,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CalcPage from './pages/CalcPage';
 import CalcDetailPage from './pages/CalcDetailPage'
+import CalcResultPage from './pages/CalcResultPage'
 import HousePage from './pages/HousePage';
 import NewsPage from './pages/NewsPage';
 
@@ -58,6 +59,21 @@ function calcScreenStack({ navigation }) {
       <Stack.Screen
         name="CalcDetailPage"
         component={CalcDetailPage}
+        options={{
+          title: '부동산 계산기', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CalcResultPage"
+        component={CalcResultPage}
         options={{
           title: '부동산 계산기', //Set Header Title
           headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,

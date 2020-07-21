@@ -1,18 +1,17 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView, Button } from 'react-native';
 import CalcBroker from '../components/CalcComponents/CalcBroker'
 
 class CalcDetailPage extends React.Component {
-    state={
-        selected: false
-    }
     constructor(props) {
         super(props);
+        console.log("CalcDetailPage ",JSON.stringify(props));
     }
     getDetailComponent(id) {
-        console.log("getDetailComponent " + id);
+        const {navigation} = this.props;
+
         switch (id) {
-            case '1': return <CalcBroker />
+            case '1': return <CalcBroker navigation={navigation}/>
         }
     }
     render() {

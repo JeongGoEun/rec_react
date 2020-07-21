@@ -22,6 +22,7 @@
     "react-native-safe-area-context": "^3.1.1",
     "react-native-screens": "^2.9.0",
     "react-native-super-grid": "^4.0.3",
+    "react-native-table-component": "^1.2.1",
     "react-native-vector-icons": "^7.0.0"
   },
   "devDependencies": {

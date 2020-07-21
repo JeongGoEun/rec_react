@@ -18,7 +18,6 @@ const CalcPage = ({ navigation }) => {
     {title: '전/월세 계산', id: '5'},
     {title: '종합 부동산세', id: '6'},
   ])
-
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flex: 1, padding: 16 }}>
