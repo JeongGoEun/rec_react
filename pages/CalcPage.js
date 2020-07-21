@@ -1,13 +1,13 @@
 // React Native Navigation Drawer – Example using Latest Navigation Version //
 // https://aboutreact.com/react-native-navigation-drawer //
 import * as React from 'react';
-import { Button, View, Text, SafeAreaView } from 'react-native';
+import { View, Text, SafeAreaView } from 'react-native';
 //https://www.npmjs.com/package/react-native-super-grid
 import { FlatGrid } from 'react-native-super-grid';
+import { Button } from 'react-native-elements'
 
-import CalcButton from './CalcComponents/CalcButton'
-import calcStyle from './CalcComponents/styles/style'
-
+import calcStyle from '../components/styles/style'
+import CalcDetailPage from '../pages/CalcDetailPage'
 
 const CalcPage = ({ navigation }) => {  
   const [items, itemId] = React.useState([
@@ -28,7 +28,17 @@ const CalcPage = ({ navigation }) => {
           data={items}
           renderItem={({ item }) => (
             <View style={[calcStyle.itemContainer]}>
-            <CalcButton title={item.title} id={item.id} />
+              <Button
+                title={item.title}
+                type="clear"
+                titleStyle={calcStyle.btnTextColor}
+                onPress = {() => {
+                  navigation.navigate('CalcDetailPage',{
+                    title: item.title,
+                    id: item.id
+                  });
+                }}
+              />
             </View>
           )}
         />
