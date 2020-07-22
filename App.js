@@ -10,15 +10,17 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CalcPage from './pages/CalcPage';
+import CalcDetailPage from './pages/CalcDetailPage'
+import CalcResultPage from './pages/CalcResultPage'
 import HousePage from './pages/House/HousePage';
-import NewsPage from './pages/NewsPage';
-
 import House_Date from './pages/House/House_Date';
+import House_Home from './pages/House/House_Home'
+import NewsPage from './pages/NewsPage';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
-const NavigationDrawerStructure = (props)=> {
+const NavigationDrawerStructure = (props) => {
   //Structure for the navigatin Drawer
   const toggleDrawer = () => {
     //Props to open/close the drawer
@@ -27,10 +29,10 @@ const NavigationDrawerStructure = (props)=> {
 
   return (
     <View style={{ flexDirection: 'row' }}>
-      <TouchableOpacity onPress={()=> toggleDrawer()}>
+      <TouchableOpacity onPress={() => toggleDrawer()}>
         {/*Donute Button Image */}
         <Image
-          source={{uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png'}}
+          source={{ uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/drawerWhite.png' }}
           style={{ width: 25, height: 25, marginLeft: 5 }}
         />
       </TouchableOpacity>
@@ -40,47 +42,104 @@ const NavigationDrawerStructure = (props)=> {
 
 function calcScreenStack({ navigation }) {
   return (
-      <Stack.Navigator initialRouteName="CalcPage">
-        <Stack.Screen
-          name="CalcPage"
-          component={CalcPage}
-          options={{
-            title: '부동산 계산기', //Set Header Title
-            headerLeft: ()=> <NavigationDrawerStructure navigationProps={navigation} />,
-            headerStyle: {
-              backgroundColor: '#545045', //Set Header color
-            },
-            headerTintColor: '#fff', //Set Header text color
-            headerTitleStyle: {
-              //fontWeight: 'bold', //Set Header text style
-            },
-          }}
-        />
-      </Stack.Navigator>
+    <Stack.Navigator initialRouteName="CalcPage">
+      <Stack.Screen
+        name="CalcPage"
+        component={CalcPage}
+        options={{
+          title: '부동산 계산기', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CalcDetailPage"
+        component={CalcDetailPage}
+        options={{
+          title: '부동산 계산기', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="CalcResultPage"
+        component={CalcResultPage}
+        options={{
+          title: '부동산 계산기', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+    </Stack.Navigator>
   );
 }
 
 function houseScreenStack({ navigation }) {
   return (
-    <Stack.Navigator
-      initialRouteName="HousePage"
-      screenOptions={{
-        headerLeft: ()=> <NavigationDrawerStructure navigationProps={navigation} />,
-        headerStyle: {
-          backgroundColor: '#545045', //Set Header color
-        },
-        headerTintColor: '#fff', //Set Header text color
-        headerTitleStyle: {
-          //fontWeight: 'bold', //Set Header text style
-        }
-      }}>
+    <Stack.Navigator initialRouteName="HousePage">
       <Stack.Screen
         name="HousePage"
         component={HousePage}
         options={{
           title: '내 집 마련', //Set Header Title
-          
-        }}/>
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Date_Page"
+        component={House_Date}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Home_Page"
+        component={House_Home}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -90,7 +149,7 @@ function newsScreenStack({ navigation }) {
     <Stack.Navigator
       initialRouteName="NewsPage"
       screenOptions={{
-        headerLeft: ()=> <NavigationDrawerStructure navigationProps={navigation} />,
+        headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
         headerStyle: {
           backgroundColor: '#545045', //Set Header color
         },
@@ -104,32 +163,7 @@ function newsScreenStack({ navigation }) {
         component={NewsPage}
         options={{
           title: '부동산 뉴스', //Set Header Title
-          
-        }}/>
-    </Stack.Navigator>
-  );
-}
-
-function House_Date_Stack({ navigation }) {
-  return (
-    <Stack.Navigator
-      initialRouteName="House_Date_Page"
-      screenOptions={{
-        headerLeft: ()=> <NavigationDrawerStructure navigationProps={navigation} />,
-        headerStyle: {
-          backgroundColor: '#545045', //Set Header color
-        },
-        headerTintColor: '#fff', //Set Header text color
-        headerTitleStyle: {
-          //fontWeight: 'bold', //Set Header text style
-        }
-      }}>
-      <Stack.Screen
-        name="House_Date_Page"
-        component={House_Date}
-        options={{
-          title: '내 집 마련', //Set Header Title          
-        }}/>
+        }} />
     </Stack.Navigator>
   );
 }
@@ -153,13 +187,8 @@ function App() {
         <Drawer.Screen
           name="NewsPage"
           options={{ drawerLabel: '부동산 뉴스' }}
-          component={newsScreenStack} />        
-        <Drawer.Screen
-        name="House_Date_Page"
-        options={{ drawerLabel: () => null,}}
-        component={House_Date_Stack} />
+          component={newsScreenStack} />
       </Drawer.Navigator>
-
     </NavigationContainer>
   );
 }
