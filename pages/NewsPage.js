@@ -1,45 +1,82 @@
-// React Native Navigation Drawer – Example using Latest Navigation Version //
-// https://aboutreact.com/react-native-navigation-drawer //
-import * as React from 'react';
-import { Button, View, Text, SafeAreaView } from 'react-native';
+import React, { Component } from 'react';
+import { SafeAreaView, Platform, StyleSheet, Text, View, FlatList } from 'react-native';
+import CustomRow from '../components/CustomRow'
 
-const NewsPage = ({ route, navigation }) => {
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flex: 1, padding: 16 }}>
-        <View
-          style={{
-            flex: 1,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-          <Text
-            style={{
-              fontSize: 25,
-              textAlign: 'center',
-              marginBottom: 16
-            }}>
-            This is Third Page under Second Page Option
-          </Text>
-          <Button
-            onPress={() => navigation.navigate('CalcPage')}
-            title="Go to First Page"
+
+export default class NewsPage extends Component {
+
+  state = {
+    data: [],
+    page: 0, // here
+  }
+
+  _getData = async () => {
+    console.log("fetch start")
+    const response = await fetch('http://192.168.100.189:4547/user/' + this.state.page)
+      //.then(res => res.json())
+      //.then(json => {
+      //    this.setState({
+      //        data: json
+      //    })
+      //})
+      .catch(function (error) {
+        console.log(error.message);
+        throw error;
+      });
+    const result = await response.json();
+    console.log(result.page)
+    this.setState({
+      data: this.state.data.concat(result.data),
+      page: result.page + 1 // 응답을 여러번 보내도 page를 유지시키기 위해서 
+    });
+    //console.log(this.state.data)
+    console.log("fetch end")
+    return this.state.data
+  }
+
+  componentDidMount() {
+    this._getData();
+    //console.log(this.state.data);
+  }
+
+  _handleLoadMore = () => {
+    this._getData();
+    //console.log(this.state.page)
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <SafeAreaView>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <CustomRow
+                id={item.id}
+                title={item.title}
+                opday={item.date}
+                company={item.company}
+                news_url={item.url}
+                image_url={item.image}
+              />)}
+            keyExtractor={(item, index) => index.toString()}
+            onEndReached={this._handleLoadMore}
+            onEndReachedThreshold={0.01}
           />
-          <Button
-            onPress={() => navigation.navigate('HousePage')}
-            title="Go to Second Page"
-          />
-        </View>
-        <Text style={{ fontSize: 18, textAlign: 'center', color: 'grey' }}>
-          React Navigate Drawer
-        </Text>
-        <Text
-          style={{ fontSize: 16, textAlign: 'center', color: 'grey' }}>
-          www.aboutreact.com
-        </Text>
+        </SafeAreaView>
+        <Text>
+          Test3
+            </Text>
+
       </View>
-    </SafeAreaView>
-  );
+
+    );
+  }
 }
 
-export default NewsPage;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFD400',
+  }
+});
