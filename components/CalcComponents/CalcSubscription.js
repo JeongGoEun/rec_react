@@ -9,7 +9,11 @@ class CalcSubscription extends React.Component {
     data = {
         inputTextHeader: '매매가(단위: 만원)',
         result: {
-            id: 3,  // 청약가점계산은 아이디가 3
+            id: 3,          // 청약가점계산은 아이디가 3
+            score: 0,       // 청약 기간 점수
+            familyNum: 0,   // 부양가족수
+            birth: '',      // 생년월일
+            join: '',       // 가입일
         }
     }
 
@@ -37,10 +41,32 @@ class CalcSubscription extends React.Component {
                 { label: "13년 이상 ~ 14년 미만 (28점)", value: 28 },
                 { label: "14년 이상 ~ 15년 미만 (30점)", value: 30 },
                 { label: "15년 이상 (32점)", value: 32 },
-
             ],
-            time: new Date(),
-            isOpen: false,
+            //
+            birthInputText: '',
+            joinInputText: '',
+        }
+    }
+
+    onBirthTextChange = (key, text) => {
+        var birthFromTxt = text;
+        if (text.length == 8) {
+            // YYYY-MM-DD형태로 만들기
+            birthFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+
+        }
+        //console.log(key, text, '->', birthFromTxt);
+
+        if(key == 'birthInputText') {
+            this.data.result.birth=text;
+            this.setState({
+                birthInputText: birthFromTxt
+            })
+        }else{
+            this.data.result.join=text;
+            this.setState({
+                joinInputText: birthFromTxt
+            })
         }
     }
 
@@ -67,6 +93,7 @@ class CalcSubscription extends React.Component {
                             selectedValue={this.state.termText}
                             style={{ marginBottom: 6, borderWidth: 1 }}
                             onValueChange={(itemValue, itemIndex) => {
+                                this.data.result.score = itemValue; // 점수 설정 부분
                                 this.setState({ termText: itemValue })
                             }}>
                             {this.state.pickerData.map((data, i) => {
@@ -81,22 +108,30 @@ class CalcSubscription extends React.Component {
                             labelStyle={{ fontSize: 13 }}
                             inputStyle={{ height: 13 }}
                             style={{ fontSize: 8 }}
-                        //onChangeText = {text => this.data.result.fee = text}
+                            onChangeText={text => this.data.result.familyNum = text}
                         />
-                    </View>
-                    <View style={{}}>
-                        <Button title='출생년도 선택' onPress={() => this.setState({isOpen: true})} />
-                        
                     </View>
                     <View style={{}}>
                         <Input
-                            placeholder='만원 단위 금액 입력'
-                            label='월세(단위: 만원)'
+                            placeholder='YYYYMMDD'
+                            label='가입자 생일'
                             labelStyle={{ fontSize: 13 }}
                             inputStyle={{ height: 13 }}
-                            style={{ marginBottom: 2, fontSize: 8, height: 5 }}
-                        //onChangeText = {text => this.data.result.fee = text}
+                            style={{ fontSize: 8 }}
+                            value={this.state.birthInputText}
+                            //onChangeText={text => this.setState({ birthInputText: text })}
+                            onChangeText = {(text) => this.onBirthTextChange('birthInputText', text)}
                         />
+                    </View>
+                    <View style={{}}>
+                        <Input
+                            placeholder='YYYYMMDD'
+                            label='청약 가입일'
+                            labelStyle={{ fontSize: 13 }}
+                            inputStyle={{ height: 13 }}
+                            value={this.state.joinInputText}
+                            style={{ marginBottom: 2, fontSize: 8, height: 5 }}
+                            onChangeText = {(text) => this.onBirthTextChange('joinInputText', text)}/>
                     </View>
                 </View>
 
@@ -119,3 +154,17 @@ class CalcSubscription extends React.Component {
     }
 }
 export default CalcSubscription;
+// onBirthTextChange = (text) => {
+//     var birthFromTxt = text;
+//     if (text.length == 8) {
+//         // YYYY-MM-DD형태로 만들기
+//         birthFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+
+//     }
+//     console.log(text, '->', birthFromTxt);
+
+//     this.data.result.birth = text;
+//     this.setState({
+//         birthInputText: birthFromTxt
+//     })
+// }

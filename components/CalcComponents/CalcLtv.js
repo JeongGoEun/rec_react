@@ -28,7 +28,7 @@ class CalcLtv extends React.Component {
                 <View style={{ padding: 16, flex: 1, marginBottom: 10 }}>
                     <View style={{ backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15 }}>
                         <View style={{ flexDirection: "row" }}>
-                            <Icon type='entypo' name='home' style={{ alignSelf: "flex-end", marginRight: 10 }} />
+                            <Icon type='ionicon' name='bar-chart' style={{ alignSelf: "flex-end", marginRight: 10 }} />
                             <Text style={{ fontSize: 18, marginBottom: 7 }}>주택담보대출비율(Loan to Value)</Text>
                         </View>
                         <View>
