@@ -18,7 +18,12 @@ import NewsPage from './pages/NewsPage';
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
+<<<<<<< HEAD
 const NavigationDrawerStructure = (props) => {
+=======
+const NavigationDrawerStructure = (props)=> {
+  
+>>>>>>> origin/feature/news
   //Structure for the navigatin Drawer
   const toggleDrawer = () => {
     //Props to open/close the drawer
