@@ -2,16 +2,24 @@ import * as React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { Icon, ButtonGroup, Input, Button } from 'react-native-elements'
 
-// DTI
+// 간주 임대료
 class CalcDti extends React.Component {
     data = {
         inputTextHeader: '매매가(단위: 만원)',
+        result: {
+            id: 2,  // 간주임대료는 아이디가 2
+            termId: 0,      // 1년 전체, 기간 지정
+            rateId:0,       // 국세청이율 사용, 이자율 직접 입력
+            fee: 0,         // 보증금액
+            rate: 2.1,      // 월세
+            inDate: '' ,    // 입주일
+            outDate: '',    // 퇴거일    
+        }
     }
 
     constructor(props) {
         super(props);
-        console.log('CalcBroker: ',JSON.stringify(props));
-
+        console.log('CalcDti: ',JSON.stringify(props));
     }
 
 
@@ -24,10 +32,10 @@ class CalcDti extends React.Component {
                     <View style={{ backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15 }}>
                         <View style={{ flexDirection: "row"}}>
                             <Icon type='entypo' name='users' style={{ alignSelf: "flex-end", marginRight: 10 }} />
-                            <Text style={{ fontSize: 20, marginBottom: 7 }}>중개수수료</Text>
+                            <Text style={{ fontSize: 20, marginBottom: 7 }}>간주임대료</Text>
                         </View>
                         <View>
-                            <Text >DTI설명.</Text>
+                            <Text >전세금(보증금) 등에 일정한 이율을 곱하여 계산한 금액을 말하며 과세표준 및 소득금액으로 간주됩니다.</Text>
                         </View>
                     </View>
                 </View>
