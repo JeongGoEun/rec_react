@@ -19,6 +19,7 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const NavigationDrawerStructure = (props) => {
+
   //Structure for the navigatin Drawer
   const toggleDrawer = () => {
     //Props to open/close the drawer
