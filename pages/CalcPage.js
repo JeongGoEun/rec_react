@@ -11,12 +11,12 @@ import CalcDetailPage from '../pages/CalcDetailPage'
 
 const CalcPage = ({ navigation }) => {  
   const [items, itemId] = React.useState([
-    {title: '수수료계산', id: '1'},
+    {title: '중개수수료', id: '1'},
     {title: 'DTI', id: '2'},
     {title: '청약 가점 계산', id: '3'},
     {title: 'LTV', id: '4'},
     {title: '전/월세 계산', id: '5'},
-    {title: '종합 부동산세', id: '6'},
+    {title: '임대 수익률', id: '6'},
   ])
   return (
     <SafeAreaView style={{ flex: 1 }}>
