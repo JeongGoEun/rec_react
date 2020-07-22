@@ -28,7 +28,7 @@ class CalcLease extends React.Component {
                 <View style={{ padding: 16, flex: 1 }}>
                     <View style={{ backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15 }}>
                         <View style={{ flexDirection: "row" }}>
-                            <Icon type='entypo' name='users' style={{ alignSelf: "flex-end", marginRight: 10 }} />
+                            <Icon type='ionicon' name='cash' style={{ alignSelf: "flex-end", marginRight: 10 }} />
                             <Text style={{ fontSize: 18, marginBottom: 7 }}>임대수익률</Text>
                         </View>
                         <View>
