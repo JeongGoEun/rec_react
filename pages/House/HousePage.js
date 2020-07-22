@@ -33,7 +33,7 @@ const HousePage = ({ navigation }) => {
                   resizeMode: 'contain'
                 }}
                 source={require('../../images/img_home_home.jpg')} />
-                <TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('House_Home_Page')}>
                     <View style={styles.button}>
                         <Text style={styles.buttonText}>건 물</Text>
                     </View>          

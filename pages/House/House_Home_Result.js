@@ -1,7 +1,13 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 
-const House_Home_Result = ({ navigation }) => {
+const House_Home_Result = ({ route, navigation }) => { 
+    const date_year = Number(route.params.date_year.date_year_value);
+    const date_month = Number(route.params.date_month.date_month_value);
+    const amount_investment = Number(route.params.amount_investment.amount_investment_value);
+    const amount_holding = Number(route.params.amount_investment.amount_investment_value);
+    const amount_loanable = Number(route.params.amount_investment.amount_investment_value);
+    
     return (
         <View style={styles.inputContainer}>
             <View style={styles.container}>
@@ -46,11 +52,11 @@ const House_Home_Result = ({ navigation }) => {
             </View>
             
             <View style={styles.button}>
-                <Button title={'분석하기'} />
+                <Button title={'돌아가기'} onPress={() => navigation.navigate('House_Home_Page')}/>
             </View>
         </View>
     );
-};
+}
 
 const styles = StyleSheet.create({
   inputContainer: {
