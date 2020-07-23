@@ -133,9 +133,13 @@ class CalcResultPage extends React.Component {
             result = transactionValue * payRate;
         }
         payRate *= 100;
-        this.data.tableHead = ['#', '적요', '금액' ];
+        this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1', '2', '3'];
-        this.data.tableData = [[data.headerText.substr(0,3), data.fee*10000], ['상한요율', payRate.toFixed(1)], ['중개수수료', parseInt(result*10000)]];
+        this.data.tableData = [
+            [data.headerText.substr(0, 3), data.fee * 10000],
+            ['상한요율', payRate.toFixed(1)],
+            ['중개수수료', parseInt(result * 10000)]
+        ];
     }
 
     /**
@@ -152,26 +156,32 @@ class CalcResultPage extends React.Component {
      */
     getDti = () => {
         const result = this.data.result;
-        var referAmount=0, conRentFee=0;    //기준금액, 간주임대료
-        if(result.termIndex == 0) {
-            // 기준금액 = (보증금-3억)*0.6
-            referAmount = (result.fee - 30000) * 0.6;
+        var referAmount = 0, conRentFee = 0;    //기준금액, 간주임대료
+        // 기준금액 = (보증금-3억)*0.6
+        referAmount = (result.fee - 30000) * 0.6;
+        conRentFee = referAmount * result.rate * 100;
 
-            // 간주임대료 = 기준금액 * 예금이율
-            conRentFee = referAmount * result.rate * 100;
-        }else{
+        if (result.termIndex == 1) {
             // 날짜 입력 시
             // 대상기간일수 / 365(윤년: 366)
-            var divYear=365;
-            if(util.isLeapYear(result.outDate.substr(0,4))) {
+            var divYear = 365, days = 0;
+            if (util.isLeapYear(result.outDate.substr(0, 4))) {
                 console.log('윤년');
-                divYear+=1;
+                divYear += 1;
             }
-
+            days = util.convertYearToDays(result.inDate, result.outDate);
+            var localrate = days / divYear;
+            localrate.toFixed(2);   //소수점 두자리수
+            conRentFee *= localrate;
         }
-        this.data.tableHead = ['#', '적요', '금액' ];
-        this.data.tableTitle = ['1', '2', '3','4'];
-        this.data.tableData = [['보증금',result.fee*10000], ['정기예금이율',result.rate], ['기준금액', referAmount*10000], ['간주임대료', conRentFee]];
+        this.data.tableHead = ['#', '적요', '금액'];
+        this.data.tableTitle = ['1', '2', '3', '4'];
+        this.data.tableData = [
+            ['보증금', result.fee * 10000],
+            ['정기예금이율', result.rate],
+            ['기준금액', referAmount * 10000],
+            ['간주임대료', parseInt(conRentFee)]
+        ];
     }
 
     getSubscriptionFee = () => {
@@ -179,95 +189,95 @@ class CalcResultPage extends React.Component {
         var family_score = 5, houseNum_score = 0, parent_houseNum_score = 0;
 
         // 부양 가족수
-        if (data.familyNum == 0){
+        if (data.familyNum == 0) {
             family_score = 5;
-        } else if (data.familyNum == 1){
+        } else if (data.familyNum == 1) {
             family_score = 10;
-        } else if (data.familyNum == 2){
+        } else if (data.familyNum == 2) {
             family_score = 15;
-        } else if (data.familyNum == 3){
+        } else if (data.familyNum == 3) {
             family_score = 20;
-        } else if (data.familyNum == 4){
+        } else if (data.familyNum == 4) {
             family_score = 25;
-        } else if (data.familyNum == 5){
+        } else if (data.familyNum == 5) {
             family_score = 30;
-        } else if (data.familyNum >= 6){
+        } else if (data.familyNum >= 6) {
             family_score = 35;
-        } 
+        }
 
         //보유 가구수 
-        if (data.houseNum == 2){
+        if (data.houseNum == 2) {
             houseNum_score = -10;
-        } else if (data.houseNum == 3){
+        } else if (data.houseNum == 3) {
             houseNum_score = -15;
-        } else if (data.houseNum == 4){
+        } else if (data.houseNum == 4) {
             houseNum_score = -20;
-        } else if (data.houseNum == 5){
+        } else if (data.houseNum == 5) {
             houseNum_score = -25;
-        } else if (data.houseNum == 6){
+        } else if (data.houseNum == 6) {
             houseNum_score = -30;
-        } else if (data.houseNum == 7){
+        } else if (data.houseNum == 7) {
             houseNum_score = -35;
-        } else if (data.houseNum == 8){
+        } else if (data.houseNum == 8) {
             houseNum_score = -40;
-        } else if (data.houseNum == 9){
+        } else if (data.houseNum == 9) {
             houseNum_score = -45;
-        } else if (data.houseNum == 10){
+        } else if (data.houseNum == 10) {
             houseNum_score = -50;
-        } else if (data.houseNum >= 11){
+        } else if (data.houseNum >= 11) {
             houseNum_score = -55;
         }
 
         // 만 60세 이상 직계존속 보유 가구수
-        if (data.parent_houseNum == 2){
+        if (data.parent_houseNum == 2) {
             parent_houseNum_score = -5;
-        } else if (data.parent_houseNum == 3){
+        } else if (data.parent_houseNum == 3) {
             parent_houseNum_score = -10;
-        } else if (data.parent_houseNum == 4){
+        } else if (data.parent_houseNum == 4) {
             parent_houseNum_score = -15;
-        } else if (data.parent_houseNum == 5){
+        } else if (data.parent_houseNum == 5) {
             parent_houseNum_score = -20;
-        } else if (data.parent_houseNum == 6){
+        } else if (data.parent_houseNum == 6) {
             parent_houseNum_score = -25;
-        } else if (data.parent_houseNum == 7){
+        } else if (data.parent_houseNum == 7) {
             parent_houseNum_score = -30;
-        } else if (data.parent_houseNum == 8){
+        } else if (data.parent_houseNum == 8) {
             parent_houseNum_score = -35;
-        } else if (data.parent_houseNum == 9){
+        } else if (data.parent_houseNum == 9) {
             parent_houseNum_score = -40;
-        } else if (data.parent_houseNum == 10){
+        } else if (data.parent_houseNum == 10) {
             parent_houseNum_score = -45;
-        } else if (data.parent_houseNum == 11){
+        } else if (data.parent_houseNum == 11) {
             parent_houseNum_score = -50;
-        } else if (data.parent_houseNum == 12){
+        } else if (data.parent_houseNum == 12) {
             parent_houseNum_score = -55;
-        } else if (data.parent_houseNum == 13){
+        } else if (data.parent_houseNum == 13) {
             parent_houseNum_score = -60;
-        } else if (data.parent_houseNum == 14){
+        } else if (data.parent_houseNum == 14) {
             parent_houseNum_score = -65;
-        } else if (data.parent_houseNum == 15){
+        } else if (data.parent_houseNum == 15) {
             parent_houseNum_score = -70;
-        } else if (data.parent_houseNum == 16){
+        } else if (data.parent_houseNum == 16) {
             parent_houseNum_score = -75;
-        } else if (data.parent_houseNum == 17){
+        } else if (data.parent_houseNum == 17) {
             parent_houseNum_score = -80;
-        } else if (data.parent_houseNum >= 18){
+        } else if (data.parent_houseNum >= 18) {
             parent_houseNum_score = -85;
-        }       
+        }
 
         // 결과
         this.data.tableHead = ['#', '기준', '가점점수'];
         this.data.tableTitle = ['1', '2', '3', '4', '5'];
-        this.data.tableData = [['무주택 기간',data.score], 
-                                ['부양가족수',family_score], 
-                                ['청약통장 가입기간',data.period_score],
-                                ['보유하신 가구수',houseNum_score],
-                                ['만 60세 이상 직계존속 보유가구수',parent_houseNum_score]];        
+        this.data.tableData = [['무주택 기간', data.score],
+        ['부양가족수', family_score],
+        ['청약통장 가입기간', data.period_score],
+        ['보유하신 가구수', houseNum_score],
+        ['만 60세 이상 직계존속 보유가구수', parent_houseNum_score]];
         console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
     }
 
     render() {
-        const {navigation} = this.props;
+        const { navigation } = this.props;
 
         return (
             <SafeAreaView style={{ flex: 1 }}>
@@ -284,7 +294,7 @@ class CalcResultPage extends React.Component {
                             </Table>
                         </View>
 
-                        <View style={{ flex: 1, paddingHorizontal: 80,justifyContent: "flex-end" }}>
+                        <View style={{ flex: 1, paddingHorizontal: 80, justifyContent: "flex-end" }}>
                             <Button
                                 title='메인화면'
                                 type="solid"
