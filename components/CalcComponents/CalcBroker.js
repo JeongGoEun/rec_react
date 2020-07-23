@@ -7,13 +7,13 @@ import CalcStyle from '../styles/style';
 // 중개 수수료
 class CalcBroker extends React.Component {
     data = {
-        inputTextHeader: '매매가(단위: 만원)',
         result: {
             id: 1,  // 중개 수수료는 아이디가 1
             contractId: 0,
             houseId:0,
             fee: 0,
-            monthlyFee: 0   //월세
+            monthlyFee: 0,   //월세
+            headerText: '매매가(단위: 만원)',
         }
     }
 
@@ -25,24 +25,22 @@ class CalcBroker extends React.Component {
             selectedIndex: 0,
             houseIndex: 0,
         }
-        // binding function
-        this.updateContractIndex = this.updateContractIndex.bind(this);
-        this.updateHouseIndex = this.updateHouseIndex.bind(this);
-
     }
 
-    updateContractIndex(selectedIndex) {
+    updateContractIndex = (selectedIndex) => {
         if (selectedIndex == 0) {
-            this.data.inputTextHeader = '매매가(단위: 만원)';
+            this.data.result.headerText = '매매가(단위: 만원)';
+            this.data.result.monthlyFee=0;
         } else if (selectedIndex == 1) {
-            this.data.inputTextHeader = '전세가(단위: 만원)';
+            this.data.result.headerText = '전세가(단위: 만원)';
+            this.data.result.monthlyFee=0;
         } else {
-            this.data.inputTextHeader = '보증금(단위: 만원)';
+            this.data.result.headerText = '보증금(단위: 만원)';
         }
         this.data.result.contractId = selectedIndex;
         this.setState({ selectedIndex: selectedIndex });
     }
-    updateHouseIndex(houseIndex) {
+    updateHouseIndex = (houseIndex) => {
         this.data.result.houseId = houseIndex;
         this.setState({ houseIndex: houseIndex });
     }
@@ -94,7 +92,7 @@ class CalcBroker extends React.Component {
                         <View style={{ flexDirection: "row" }}>
                             <Input
                                 placeholder='금액 입력'
-                                label={this.data.inputTextHeader}
+                                label={this.data.result.headerText}
                                 style={{ marginBottom: 7, fontSize: 10 }}
                                 onChangeText = {text => this.data.result.fee = parseInt(text)}
                             />

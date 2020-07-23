@@ -3,6 +3,11 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'rea
 
 const House_Date_Result = ({ route, navigation }) => {
     const amount_wanted = Number(route.params.amount_wanted.amount_wanted_value);
+<<<<<<< HEAD
+    const amount_investment = Number(route.params.amount_investment.amount_investment_value);
+    const amount_holding = Number(route.params.amount_holding.amount_holding_value);
+    const amount_loanable = Number(route.params.amount_loanable.amount_loanable_value);
+=======
 
     console.log(amount_wanted);
 
@@ -10,6 +15,7 @@ const House_Date_Result = ({ route, navigation }) => {
     const amount_holding = Number(route.params.amount_holding.amount_holding_value);
     const amount_loanable = Number(route.params.amount_loanable.amount_loanable_value);
     
+>>>>>>> origin/feature/home
 
     return (
         <View style={styles.inputContainer}>
