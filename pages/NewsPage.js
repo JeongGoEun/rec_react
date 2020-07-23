@@ -25,19 +25,12 @@ export default class NewsPage extends Component {
       });
     const result = await response.json();
     console.log(result.page)
-<<<<<<< HEAD
     if (this.state.page === result.page) { // 응답을 여러번 보내도 page를 유지시키기 위해서 
       this.setState({
         data: this.state.data.concat(result.data),
         page: result.page + 1 
       });
     }
-=======
-    this.setState({
-      data: this.state.data.concat(result.data),
-      page: result.page + 1 // 응답을 여러번 보내도 page를 유지시키기 위해서 
-    });
->>>>>>> origin/feature/home
     //console.log(this.state.data)
     console.log("fetch end")
     return this.state.data
