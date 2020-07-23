@@ -1,6 +1,12 @@
 // 돈 세자리씩 끊어주는 것
 function convertMoney(money) {
-    var m = money.toString();
+    var m = money.toString(), newMoney = '';
+    var reg = /(^[+-]?\d+)(\d{3})/;
+    var n = m;
+ 
+    while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
+ 
+    return n;
 }
 
 // 윤년 확인
