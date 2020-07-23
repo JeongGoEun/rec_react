@@ -5,15 +5,17 @@ import { Picker } from '@react-native-community/picker'
 
 //https://www.applyhome.co.kr/ap/apg/selectAddpntCalculatorView.do
 // 청약 가점 계산
+//http://www.imcd.co.kr/open_content/well/guide/calculator.jsp
 class CalcSubscription extends React.Component {
     data = {
         inputTextHeader: '매매가(단위: 만원)',
         result: {
             id: 3,          // 청약가점계산은 아이디가 3
-            score: 0,       // 청약 기간 점수
+            score: 0,       // 무주택 기간 점수
             familyNum: 0,   // 부양가족수
-            birth: '',      // 생년월일
-            join: '',       // 가입일
+            period_score: 1,      // 청약통장 가입기간 점수 (period)
+            houseNum: 0,       // 보유 가구수 (houseNum)
+            parent_houseNum: 0, // 만 60세 이상 직계존속 보유가구수
         }
     }
 
@@ -22,8 +24,9 @@ class CalcSubscription extends React.Component {
         console.log('CalcRent: ', JSON.stringify(props));
         this.state = {
             // index는 0부터 시작
-            termText: '',
-            pickerData: [
+            termText: '',  // 무주택 표출 문자열 (피커 선택 표출)
+            periodText: '', // 청약 통장 가입 기간 표출 문자열  (피커 선택 표출)
+            pickerData: [  // 무주택 피커
                 { label: "30세 미만 미혼 무주택자 (0점)", value: 0 },
                 { label: "1년 미만 (2점)", value: 2 },
                 { label: "1년 이상 ~ 2년 미만 (4점)", value: 4 },
@@ -42,34 +45,53 @@ class CalcSubscription extends React.Component {
                 { label: "14년 이상 ~ 15년 미만 (30점)", value: 30 },
                 { label: "15년 이상 (32점)", value: 32 },
             ],
+            periodData: [  //청약 통장 기간 피커 
+                { label: "6개월 미만 (1점)", value: 1 },
+                { label: "6개월 이상 ~ 1년 미만 (2점)", value: 2 },
+                { label: "1년 이상 ~ 2년 미만 (3점)", value: 3 },
+                { label: "2년 이상 ~ 3년 미만 (4점)", value: 4 },
+                { label: "3년 이상 ~ 4년 미만 (5점)", value: 5 },
+                { label: "4년 이상 ~ 5년 미만 (6점)", value: 6 },
+                { label: "5년 이상 ~ 6년 미만 (7점)", value: 7 },
+                { label: "6년 이상 ~ 7년 미만 (8점)", value: 8 },
+                { label: "7년 이상 ~ 8년 미만 (9점)", value: 9 },
+                { label: "8년 이상 ~ 9년 미만 (10점)", value: 10 },
+                { label: "9년 이상 ~ 10년 미만 (11점)", value: 11 },
+                { label: "10년 이상 ~ 11년 미만 (12점)", value: 12 },
+                { label: "11년 이상 ~ 12년 미만 (13점)", value: 13 },
+                { label: "12년 이상 ~ 13년 미만 (14점)", value: 14 },
+                { label: "13년 이상 ~ 14년 미만 (15점)", value: 15 },
+                { label: "14년 이상 ~ 15년 미만 (16점)", value: 16 },
+                { label: "15년 이상 (17점)", value: 17 },
+            ],
             //
-            birthInputText: '',
-            joinInputText: '',
+            //houseInputText: '',  // 보유 가구수 표출 문자열
+            //parentHouse_InputText: '', // 60세 이상 보유 가구수 표출 문자열
         }
     }
-
-    onBirthTextChange = (key, text) => {
-        var birthFromTxt = text;
+/*
+    onhouseNumTextChange = (key, text) => {
+        var periodFromTxt = text;
         if (text.length == 8) {
             // YYYY-MM-DD형태로 만들기
-            birthFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+            periodFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
 
         }
-        //console.log(key, text, '->', birthFromTxt);
+        //console.log(key, text, '->', periodFromTxt);
 
-        if(key == 'birthInputText') {
-            this.data.result.birth=text;
+        if(key == 'houseInputText') {
+            this.data.result.houseNum=parseInt(text);
             this.setState({
-                birthInputText: birthFromTxt
+                houseInputText: periodFromTxt
             })
         }else{
-            this.data.result.join=text;
+            this.data.result.parent_houseNum=parseInt(text);
             this.setState({
-                joinInputText: birthFromTxt
+                parentHouse_InputText: periodFromTxt
             })
         }
     }
-
+*/
     render() {
         const { navigation } = this.props;
 
@@ -90,6 +112,7 @@ class CalcSubscription extends React.Component {
                 <View style={{ paddingHorizontal: 16, flex: 5 }}>
                     <View style={{}}>
                         <Picker
+                            // 무주택 기간 선택 
                             selectedValue={this.state.termText}
                             style={{ marginBottom: 6, borderWidth: 1 }}
                             onValueChange={(itemValue, itemIndex) => {
@@ -102,36 +125,56 @@ class CalcSubscription extends React.Component {
                         </Picker>
                     </View>
                     <View style={{}}>
-                        <Input
+                        <Input keyboardType = 'numeric'
+                            // 부양 가족 수 
                             placeholder='부양가족수 입력'
                             label='부양가족수(단위: 명)'
                             labelStyle={{ fontSize: 13 }}
                             inputStyle={{ height: 13 }}
                             style={{ fontSize: 8 }}
-                            onChangeText={text => this.data.result.familyNum = text}
+                            onChangeText={text => this.data.result.familyNum = parseInt(text)}
                         />
                     </View>
+                    
                     <View style={{}}>
-                        <Input
-                            placeholder='YYYYMMDD'
-                            label='가입자 생일'
+                        <Picker        
+                            // 청약 통장 가입 기간
+                            selectedValue={this.state.periodText}
+                            style={{ marginBottom: 6, borderWidth: 1 }}
+                            onValueChange={(itemValue, itemIndex) => {
+                                this.data.result.period_score = itemValue; // 점수 설정 부분
+                                this.setState({ periodText: itemValue })
+                            }}>
+                            {this.state.periodData.map((data, i) => {
+                                return (<Picker.Item label={data.label} value={data.value} key={i} />)
+                            })}
+                        </Picker>
+                    </View> 
+
+
+                    <View style={{}}>
+                        <Input keyboardType = 'numeric'
+                            placeholder='가구수 입력'
+                            label='보유가구수'
                             labelStyle={{ fontSize: 13 }}
                             inputStyle={{ height: 13 }}
                             style={{ fontSize: 8 }}
-                            value={this.state.birthInputText}
-                            //onChangeText={text => this.setState({ birthInputText: text })}
-                            onChangeText = {(text) => this.onBirthTextChange('birthInputText', text)}
+                            //value={this.state.houseInputText}
+                            onChangeText={text => this.data.result.houseNum = parseInt(text)}
+                            //onChangeText = {(text) => this.onhouseNumTextChange('houseInputText', text)}
                         />
                     </View>
                     <View style={{}}>
-                        <Input
-                            placeholder='YYYYMMDD'
-                            label='청약 가입일'
+                        <Input keyboardType = 'numeric'
+                            placeholder='가구수 입력'
+                            label='만 60세 이상 직계존속 보유가구수'
                             labelStyle={{ fontSize: 13 }}
                             inputStyle={{ height: 13 }}
-                            value={this.state.joinInputText}
+                            //value={this.state.parentHouse_InputText}
                             style={{ marginBottom: 2, fontSize: 8, height: 5 }}
-                            onChangeText = {(text) => this.onBirthTextChange('joinInputText', text)}/>
+                            onChangeText = {(text) => this.data.result.parent_houseNum = parseInt(text)}
+                            //onChangeText = {(text) => this.onhouseNumTextChange('parentHouse_InputText', text)}/>
+                        />
                     </View>
                 </View>
 
@@ -155,16 +198,16 @@ class CalcSubscription extends React.Component {
 }
 export default CalcSubscription;
 // onBirthTextChange = (text) => {
-//     var birthFromTxt = text;
+//     var periodFromTxt = text;
 //     if (text.length == 8) {
 //         // YYYY-MM-DD형태로 만들기
-//         birthFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+//         periodFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
 
 //     }
-//     console.log(text, '->', birthFromTxt);
+//     console.log(text, '->', periodFromTxt);
 
 //     this.data.result.birth = text;
 //     this.setState({
-//         birthInputText: birthFromTxt
+//         houseInputText: periodFromTxt
 //     })
 // }
