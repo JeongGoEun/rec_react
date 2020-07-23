@@ -38,6 +38,7 @@ class CalcResultPage extends React.Component {
                 this.getDti();          //간주임대료
                 break;
             case 3:
+                this.getSubscriptionFee();
                 break;
             case 4:
                 break;
@@ -171,6 +172,98 @@ class CalcResultPage extends React.Component {
         this.data.tableHead = ['#', '적요', '금액' ];
         this.data.tableTitle = ['1', '2', '3','4'];
         this.data.tableData = [['보증금',result.fee*10000], ['정기예금이율',result.rate], ['기준금액', referAmount*10000], ['간주임대료', conRentFee]];
+    }
+
+    getSubscriptionFee = () => {
+        const data = this.data.result;
+        var family_score = 5, houseNum_score = 0, parent_houseNum_score = 0;
+
+        // 부양 가족수
+        if (data.familyNum == 0){
+            family_score = 5;
+        } else if (data.familyNum == 1){
+            family_score = 10;
+        } else if (data.familyNum == 2){
+            family_score = 15;
+        } else if (data.familyNum == 3){
+            family_score = 20;
+        } else if (data.familyNum == 4){
+            family_score = 25;
+        } else if (data.familyNum == 5){
+            family_score = 30;
+        } else if (data.familyNum >= 6){
+            family_score = 35;
+        } 
+
+        //보유 가구수 
+        if (data.houseNum == 2){
+            houseNum_score = -10;
+        } else if (data.houseNum == 3){
+            houseNum_score = -15;
+        } else if (data.houseNum == 4){
+            houseNum_score = -20;
+        } else if (data.houseNum == 5){
+            houseNum_score = -25;
+        } else if (data.houseNum == 6){
+            houseNum_score = -30;
+        } else if (data.houseNum == 7){
+            houseNum_score = -35;
+        } else if (data.houseNum == 8){
+            houseNum_score = -40;
+        } else if (data.houseNum == 9){
+            houseNum_score = -45;
+        } else if (data.houseNum == 10){
+            houseNum_score = -50;
+        } else if (data.houseNum >= 11){
+            houseNum_score = -55;
+        }
+
+        // 만 60세 이상 직계존속 보유 가구수
+        if (data.parent_houseNum == 2){
+            parent_houseNum_score = -5;
+        } else if (data.parent_houseNum == 3){
+            parent_houseNum_score = -10;
+        } else if (data.parent_houseNum == 4){
+            parent_houseNum_score = -15;
+        } else if (data.parent_houseNum == 5){
+            parent_houseNum_score = -20;
+        } else if (data.parent_houseNum == 6){
+            parent_houseNum_score = -25;
+        } else if (data.parent_houseNum == 7){
+            parent_houseNum_score = -30;
+        } else if (data.parent_houseNum == 8){
+            parent_houseNum_score = -35;
+        } else if (data.parent_houseNum == 9){
+            parent_houseNum_score = -40;
+        } else if (data.parent_houseNum == 10){
+            parent_houseNum_score = -45;
+        } else if (data.parent_houseNum == 11){
+            parent_houseNum_score = -50;
+        } else if (data.parent_houseNum == 12){
+            parent_houseNum_score = -55;
+        } else if (data.parent_houseNum == 13){
+            parent_houseNum_score = -60;
+        } else if (data.parent_houseNum == 14){
+            parent_houseNum_score = -65;
+        } else if (data.parent_houseNum == 15){
+            parent_houseNum_score = -70;
+        } else if (data.parent_houseNum == 16){
+            parent_houseNum_score = -75;
+        } else if (data.parent_houseNum == 17){
+            parent_houseNum_score = -80;
+        } else if (data.parent_houseNum >= 18){
+            parent_houseNum_score = -85;
+        }       
+
+        // 결과
+        this.data.tableHead = ['#', '기준', '가점점수'];
+        this.data.tableTitle = ['1', '2', '3', '4', '5'];
+        this.data.tableData = [['무주택 기간',data.score], 
+                                ['부양가족수',family_score], 
+                                ['청약통장 가입기간',data.period_score],
+                                ['보유하신 가구수',houseNum_score],
+                                ['만 60세 이상 직계존속 보유가구수',parent_houseNum_score]];        
+        console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
     }
 
     render() {
