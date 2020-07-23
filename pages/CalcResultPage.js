@@ -71,7 +71,7 @@ class CalcResultPage extends React.Component {
 
         //주택
         if (data.houseId == 0) {
-            if (data.contractId == 1) {
+            if (data.contractId == 0) {
                 if (transactionValue < 5000) {
                     payRate *= 0.6;
                     result = transactionValue * payRate;
@@ -114,9 +114,9 @@ class CalcResultPage extends React.Component {
                     result = transactionValue * payRate;
                 }
             }
-        } else if (data.houseId == 2) {
+        } else if (data.houseId == 1) {
             // 오피스텔
-            if (data.contractId == 1) {
+            if (data.contractId == 0) {
                 // 매매
                 payRate *= 0.5;
             } else {
@@ -129,9 +129,10 @@ class CalcResultPage extends React.Component {
             payRate *= 0.9;
             result = transactionValue * payRate;
         }
-        this.data.tableHead = ['#', '적요', '금액'];
+        payRate *= 100;
+        this.data.tableHead = ['#', '적요', '금액' ];
         this.data.tableTitle = ['1', '2', '3'];
-        this.data.tableData = [['가격', data.fee], ['상한요율', payRate], ['중개수수료', result]];
+        this.data.tableData = [[data.headerText.substr(0,3), data.fee*10000], ['상한요율', payRate.toFixed(1)], ['중개수수료', parseInt(result*10000)]];
     }
     render() {
         const {navigation} = this.props;
@@ -151,7 +152,7 @@ class CalcResultPage extends React.Component {
                             </Table>
                         </View>
 
-                        <View style={{ flex: 1, paddingHorizontal: 80 }}>
+                        <View style={{ flex: 1, paddingHorizontal: 80,justifyContent: "flex-end" }}>
                             <Button
                                 title='메인화면'
                                 type="solid"
