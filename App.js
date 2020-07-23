@@ -10,9 +10,13 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CalcPage from './pages/CalcPage';
-import CalcDetailPage from './pages/CalcDetailPage'
-import CalcResultPage from './pages/CalcResultPage'
-import HousePage from './pages/HousePage';
+import CalcDetailPage from './pages/CalcDetailPage';
+import CalcResultPage from './pages/CalcResultPage';
+import HousePage from './pages/House/HousePage';
+import House_Date from './pages/House/House_Date';
+import House_Home from './pages/House/House_Home';
+import House_Date_Result from './pages/House/House_Date_Result';
+import House_Home_Result from './pages/House/House_Home_Result';
 import NewsPage from './pages/NewsPage';
 
 const Stack = createStackNavigator();
@@ -93,25 +97,82 @@ function calcScreenStack({ navigation }) {
 
 function houseScreenStack({ navigation }) {
   return (
-    <Stack.Navigator
-      initialRouteName="HousePage"
-      screenOptions={{
-        headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
-        headerStyle: {
-          backgroundColor: '#545045', //Set Header color
-        },
-        headerTintColor: '#fff', //Set Header text color
-        headerTitleStyle: {
-          //fontWeight: 'bold', //Set Header text style
-        }
-      }}>
+    <Stack.Navigator initialRouteName="HousePage">
       <Stack.Screen
         name="HousePage"
         component={HousePage}
         options={{
           title: '내 집 마련', //Set Header Title
-
-        }} />
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Date_Page"
+        component={House_Date}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Home_Page"
+        component={House_Home}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Date_Result_Page"
+        component={House_Date_Result}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
+      <Stack.Screen
+        name="House_Home_Result_Page"
+        component={House_Home_Result}
+        options={{
+          title: '내 집 마련', //Set Header Title
+          headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
+          headerStyle: {
+            backgroundColor: '#545045', //Set Header color
+          },
+          headerTintColor: '#fff', //Set Header text color
+          headerTitleStyle: {
+            //fontWeight: 'bold', //Set Header text style
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 }
