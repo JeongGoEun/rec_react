@@ -6,6 +6,7 @@ import CalcBroker from '../components/CalcComponents/CalcBroker'
 
 import calcStyle from '../components/styles/style'
 
+import * as util from '../components/CalcComponents/util'
 
 class CalcResultPage extends React.Component {
     data = {
@@ -24,7 +25,6 @@ class CalcResultPage extends React.Component {
     }
     componentDidMount() {
         this.calculateResult();
-        console.log('getBrokerFee', this.data);
         this.setState({ isCalculated: true });
     }
     calculateResult = () => {
@@ -32,9 +32,10 @@ class CalcResultPage extends React.Component {
 
         switch (this.data.result.id) {
             case 1:
-                this.getBrokerFee();
+                this.getBrokerFee();    //중개보수
                 break;
             case 2:
+                this.getDti();          //간주임대료
                 break;
             case 3:
                 break;
@@ -47,6 +48,7 @@ class CalcResultPage extends React.Component {
         }
     }
     /**
+     * @params
      * result: {
             id: 0, 
             contractId: 0,
@@ -134,6 +136,43 @@ class CalcResultPage extends React.Component {
         this.data.tableTitle = ['1', '2', '3'];
         this.data.tableData = [[data.headerText.substr(0,3), data.fee*10000], ['상한요율', payRate.toFixed(1)], ['중개수수료', parseInt(result*10000)]];
     }
+
+    /**
+     * @params
+     * result: {
+            id: 2,          // 간주임대료는 아이디가 2
+            termIndex: 0,   // 1년 전체, 기간 지정
+            rateIndex: 0,   // 국세청이율 사용, 이자율 직접 입력
+            fee: 0,         // 보증금액
+            rate: 2.1,      // 이자율
+            inDate: '',     // 입주일
+            outDate: '',    // 퇴거일    
+        }
+     */
+    getDti = () => {
+        const result = this.data.result;
+        var referAmount=0, conRentFee=0;    //기준금액, 간주임대료
+        if(result.termIndex == 0) {
+            // 기준금액 = (보증금-3억)*0.6
+            referAmount = (result.fee - 30000) * 0.6;
+
+            // 간주임대료 = 기준금액 * 예금이율
+            conRentFee = referAmount * result.rate * 100;
+        }else{
+            // 날짜 입력 시
+            // 대상기간일수 / 365(윤년: 366)
+            var divYear=365;
+            if(util.isLeapYear(result.outDate.substr(0,4))) {
+                console.log('윤년');
+                divYear+=1;
+            }
+
+        }
+        this.data.tableHead = ['#', '적요', '금액' ];
+        this.data.tableTitle = ['1', '2', '3','4'];
+        this.data.tableData = [['보증금',result.fee*10000], ['정기예금이율',result.rate], ['기준금액', referAmount*10000], ['간주임대료', conRentFee]];
+    }
+
     render() {
         const {navigation} = this.props;
 
@@ -163,8 +202,6 @@ class CalcResultPage extends React.Component {
                             />
                         </View>
                     </View>
-
-
                     :
                     <View style={{ flex: 1, padding: 16, backgroundColor: '#E0E0E0' }}>
                         <Text>Calc Result Page</Text>

@@ -11,7 +11,7 @@ class CalcDti extends React.Component {
             termIndex: 0,      // 1년 전체, 기간 지정
             rateIndex: 0,       // 국세청이율 사용, 이자율 직접 입력
             fee: 0,         // 보증금액
-            rate: 2.1,      // 월세
+            rate: 2.1,      // 이자율
             inDate: '',    // 입주일
             outDate: '',    // 퇴거일    
         }
@@ -84,7 +84,7 @@ class CalcDti extends React.Component {
                 </View>
 
 
-                <View style={{ padding: 16, flex: 4 }}>
+                <View style={{ paddingHorizontal: 16, flex: 4 }}>
                     <View style={{}}>
                         <ButtonGroup
                             onPress={this.updateTermIndex}
@@ -93,7 +93,7 @@ class CalcDti extends React.Component {
                             containerStyle={{ height: 30 }}
                         />
                     </View>
-                    <View style={{ marginBottom: 10 }}>
+                    <View style={{ marginBottom: 20 }}>
                         <ButtonGroup
                             onPress={this.updateRateIndex}
                             selectedIndex={rateIndex}

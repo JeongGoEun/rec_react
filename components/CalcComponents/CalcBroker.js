@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { Icon, ButtonGroup, Input, Button } from 'react-native-elements'
 
 import CalcStyle from '../styles/style';
@@ -54,7 +54,7 @@ class CalcBroker extends React.Component {
         console.log('index: ', selectedIndex, houseIndex)
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1 }}>
                 <View style={{ padding: 16, flex: 1 }}>
                     <View style={CalcStyle.calcDescriptionStyle}>
                         <View style={{ flexDirection: "row"}}>
@@ -123,7 +123,7 @@ class CalcBroker extends React.Component {
                         />
                     </View>
                 </View>
-            </SafeAreaView>
+            </ScrollView>
         );
     }
 }
