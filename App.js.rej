@@ -1,0 +1,9 @@
+diff a/App.js b/App.js	(rejected hunks)
+@@ -17,6 +17,7 @@
+ const Drawer = createDrawerNavigator();
+ 
+ const NavigationDrawerStructure = (props)=> {
++  
+   //Structure for the navigatin Drawer
+   const toggleDrawer = () => {
+     //Props to open/close the drawer
