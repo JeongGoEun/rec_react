@@ -1,3 +1,13 @@
+// 윤년 확인
+function isLeapYear(_year) {
+    var year = parseInt(_year);
+    if((year%4 == 0 && year%100 != 0) || year%400 == 0) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
 // 돈 세자리씩 끊어주는 것
 function convertMoney(money) {
     var m = money.toString(), newMoney = '';
@@ -7,18 +17,6 @@ function convertMoney(money) {
     while (reg.test(n)) n = n.replace(reg, '$1' + ',' + '$2');
  
     return n;
-}
-
-// 윤년 확인
-function isLeapYear(_year) {
-    var year = parseInt(_year);
-    // for test
-    convertYearToDays('19960207','19960228');
-    if((year%4 == 0 && year%100 != 0) || year%400 == 0) {
-        return true;
-    }else{
-        return false;
-    }
 }
 
 // 년도 별 일 수 구하기
@@ -31,8 +29,14 @@ function convertYearToDays(startYear, endYear) {
     return diff;
 }
 
+// 19960207 -> 1996-02-07
+function convertYearFormat(year) {
+    return year.substr(0, 4) + '-' + year.substr(4, 2) + '-' + year.substr(6, 2);
+}
+
 export{
-    convertMoney,
     isLeapYear,
+    convertMoney,
     convertYearToDays,
+    convertYearFormat,
 }

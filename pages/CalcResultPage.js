@@ -171,7 +171,7 @@ class CalcResultPage extends React.Component {
             }
             days = util.convertYearToDays(result.inDate, result.outDate);
             var localrate = days / divYear;
-            localrate.toFixed(2);   //소수점 두자리수
+            localrate = localrate.toFixed(2);   //소수점 두자리수
             conRentFee *= localrate;
         }
         this.data.tableHead = ['#', '적요', '금액'];
@@ -182,6 +182,15 @@ class CalcResultPage extends React.Component {
             ['기준금액', util.convertMoney(referAmount * 10000)],
             ['간주임대료', util.convertMoney(parseInt(conRentFee))]
         ];
+        // 기간 지정 시
+        if(result.termIndex == 1) {
+            this.data.tableTitle = [...this.data.tableTitle, '5','6','7','8'];
+
+            this.data.tableData.splice(2,0,['입주일',util.convertYearFormat(result.inDate)]);
+            this.data.tableData.splice(3,0,['퇴거일',util.convertYearFormat(result.outDate)]);
+            this.data.tableData.splice(4,0,['임대기간',days]);
+            this.data.tableData.splice(5,0,['적용 비율',localrate]);
+        }
     }
 
     getSubscriptionFee = () => {
