@@ -25,13 +25,9 @@ class CalcBroker extends React.Component {
             selectedIndex: 0,
             houseIndex: 0,
         }
-        // binding function
-        this.updateContractIndex = this.updateContractIndex.bind(this);
-        this.updateHouseIndex = this.updateHouseIndex.bind(this);
-
     }
 
-    updateContractIndex(selectedIndex) {
+    updateContractIndex = (selectedIndex) => {
         if (selectedIndex == 0) {
             this.data.inputTextHeader = '매매가(단위: 만원)';
         } else if (selectedIndex == 1) {
@@ -42,7 +38,7 @@ class CalcBroker extends React.Component {
         this.data.result.contractId = selectedIndex;
         this.setState({ selectedIndex: selectedIndex });
     }
-    updateHouseIndex(houseIndex) {
+    updateHouseIndex = (houseIndex) => {
         this.data.result.houseId = houseIndex;
         this.setState({ houseIndex: houseIndex });
     }

@@ -1,7 +1,11 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
+import { Button } from 'react-native-elements'
 import CalcBroker from '../components/CalcComponents/CalcBroker'
+
+import calcStyle from '../components/styles/style'
+
 
 class CalcResultPage extends React.Component {
     data = {
@@ -18,7 +22,7 @@ class CalcResultPage extends React.Component {
         }
         this.data.result = this.props.route.params.result;
     }
-    componentDidMount () {
+    componentDidMount() {
         this.calculateResult();
         console.log('getBrokerFee', this.data);
         this.setState({ isCalculated: true });
@@ -127,22 +131,39 @@ class CalcResultPage extends React.Component {
         }
         this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1', '2', '3'];
-        this.data.tableData = [['가격',data.fee], ['상한요율',payRate], ['중개수수료',result]];        
+        this.data.tableData = [['가격', data.fee], ['상한요율', payRate], ['중개수수료', result]];
     }
     render() {
+        const {navigation} = this.props;
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 {this.state.isCalculated
                     ?
-                    <View style={{ flex: 1, padding: 16, backgroundColor: '#E0E0E0' }}>
-                        <Table borderStyle={{ borderWidth: 1 }}>
-                            <Row data={this.data.tableHead} flexArr={[1, 1, 1]} style={styles.head} textStyle={styles.text} />
-                            <TableWrapper style={styles.wrapper}>
-                                <Col data={this.data.tableTitle} style={styles.title} heightArr={[28, 28]} textStyle={styles.text} />
-                                <Rows data={this.data.tableData} flexArr={[1, 1, 1]} style={styles.row} textStyle={styles.text} />
-                            </TableWrapper>
-                        </Table>
+                    <View style={{ flex: 1, padding: 50, backgroundColor: '#E0E0E0' }}>
+                        <View style={{ flex: 2 }}>
+                            <Table borderStyle={{ borderWidth: 1, borderColor: '#FFBC00' }}>
+                                <Row data={this.data.tableHead} flexArr={[1, 2, 3]} style={styles.head} textStyle={styles.text} />
+                                <TableWrapper style={styles.wrapper}>
+                                    <Col data={this.data.tableTitle} style={styles.title} heightArr={[40, 40, 40]} textStyle={styles.text} />
+                                    <Rows data={this.data.tableData} flexArr={[2, 3]} style={styles.row} textStyle={styles.text} />
+                                </TableWrapper>
+                            </Table>
+                        </View>
+
+                        <View style={{ flex: 1, paddingHorizontal: 80 }}>
+                            <Button
+                                title='메인화면'
+                                type="solid"
+                                titleStyle={calcStyle.btnTextColor}
+                                onPress={() => {
+                                    navigation.navigate('CalcPage');
+                                }}
+                            />
+                        </View>
                     </View>
+
+
                     :
                     <View style={{ flex: 1, padding: 16, backgroundColor: '#E0E0E0' }}>
                         <Text>Calc Result Page</Text>
@@ -154,10 +175,10 @@ class CalcResultPage extends React.Component {
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
-    head: {  height: 40,  backgroundColor: '#f1f8ff'  },
+    head: { height: 40, backgroundColor: '#f1f8ff' },
     wrapper: { flexDirection: 'row' },
     title: { flex: 1, backgroundColor: '#f6f8fa' },
-    row: {  height: 28  },
-    text: { textAlign: 'center' }
-  });
+    row: { height: 40 },
+    text: { textAlign: 'center', fontSize: 17 }
+});
 export default CalcResultPage;

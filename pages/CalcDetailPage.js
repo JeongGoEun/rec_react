@@ -21,7 +21,7 @@ class CalcDetailPage extends React.Component {
     render() {
         // Get it from props
         const params = this.props.route.params;
-        console.log('CalcDetailPage: ',params);
+        //console.log('CalcDetailPage: ',params);
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={{ flex: 1, padding: 16 }}>
