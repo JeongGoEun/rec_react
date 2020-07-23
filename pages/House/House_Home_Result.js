@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 
-const House_Home_Result = ({ route, navigation }) => { 
-    const date_year = Number(route.params.date_year.date_year_value);
-    const date_month = Number(route.params.date_month.date_month_value);
-    const amount_investment = Number(route.params.amount_investment.amount_investment_value);
-    const amount_holding = Number(route.params.amount_investment.amount_investment_value);
-    const amount_loanable = Number(route.params.amount_investment.amount_investment_value);
-    var img_path = '../../images/number';
+const House_Home_Result = ({ route, navigation }) => {
+    const home_data = {
+        date_year: Number(route.params.date_year),
+        date_month: Number(route.params.date_month),
+        amount_investment: Number(route.params.amount_investment),
+        amount_holding: Number(route.params.amount_holding),
+        amount_loanable: Number(route.params.amount_loanable),
+    }
+    console.log(home_data);
+    console.log(home_data.amount_loanable);
+    console.log(typeof(home_data.amount_loanable));
 
+    var img_path = '../../images/number';
     
     return (
         <View style={styles.inputContainer}>

@@ -7,12 +7,36 @@ const House_Date = ({ navigation }) => {
     const [amount_investment_value, set_amount_investment_value] = useState('');
     const [amount_holding_value, set_amount_holding_value] = useState('');
     const [amount_loanable_value, set_amount_loanable_value] = useState('');
+    const numbers = '0123456789';
 
     const onChange_amount_wanted_value = text => {
-        set_amount_wanted_value(text);
+        if(text===''){
+            set_amount_wanted_value('');
+        }
+        else{
+            let newText = '';
+            for(var i = 0; i<text.length; i++){
+                if(numbers.indexOf(text[i])>-1){
+                    newText = newText + text[i];
+                    set_amount_wanted_value(newText);
+                }
+                else{
+                    alert("please enter numbers only");
+                }
+            }
+        }   
     };
     const onChange_amount_investment_value = text => {
-        set_amount_investment_value(text);
+        let newText = '';
+        for(var i = 0; i<text.length; i++){
+            if(numbers.indexOf(text[i])>-1){
+                newText = newText + text[i];
+                set_amount_investment_value(newText);
+            }
+            else{
+                alert("please enter numbers only");
+            }
+        }
     };
     const onChange_amount_holding_value = text => {
         set_amount_holding_value(text);
@@ -33,7 +57,7 @@ const House_Date = ({ navigation }) => {
                     value = {amount_wanted_value}
                     onChangeText = {onChange_amount_wanted_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>투자가능금액</Text>
@@ -45,7 +69,7 @@ const House_Date = ({ navigation }) => {
                     value = {amount_investment_value}
                     onChangeText = {onChange_amount_investment_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>보유금액</Text>
@@ -57,7 +81,7 @@ const House_Date = ({ navigation }) => {
                     value = {amount_holding_value}
                     onChangeText = {onChange_amount_holding_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>대출가능금액</Text>
@@ -69,7 +93,7 @@ const House_Date = ({ navigation }) => {
                     value = {amount_loanable_value}
                     onChangeText = {onChange_amount_loanable_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             
             <View style={styles.button}>
