@@ -2,12 +2,14 @@ import * as React from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { Icon, ButtonGroup, Input, Button } from 'react-native-elements'
 
+import CalcStyle from '../styles/style';
 
+// 중개 수수료
 class CalcBroker extends React.Component {
     data = {
         inputTextHeader: '매매가(단위: 만원)',
         result: {
-            id: 1,  // 중개 수수료는 아이디가 0
+            id: 1,  // 중개 수수료는 아이디가 1
             contractId: 0,
             houseId:0,
             fee: 0,
@@ -56,7 +58,7 @@ class CalcBroker extends React.Component {
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={{ padding: 16, flex: 1 }}>
-                    <View style={{ backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15 }}>
+                    <View style={CalcStyle.calcDescriptionStyle}>
                         <View style={{ flexDirection: "row"}}>
                             <Icon type='entypo' name='users' style={{ alignSelf: "flex-end", marginRight: 10 }} />
                             <Text style={{ fontSize: 20, marginBottom: 7 }}>중개수수료</Text>

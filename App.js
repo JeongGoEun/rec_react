@@ -10,8 +10,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import CalcPage from './pages/CalcPage';
-import CalcDetailPage from './pages/CalcDetailPage'
-import CalcResultPage from './pages/CalcResultPage'
+import CalcDetailPage from './pages/CalcDetailPage';
+import CalcResultPage from './pages/CalcResultPage';
 import HousePage from './pages/House/HousePage';
 import House_Date from './pages/House/House_Date';
 import House_Home from './pages/House/House_Home';
@@ -23,6 +23,7 @@ const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 const NavigationDrawerStructure = (props) => {
+
   //Structure for the navigatin Drawer
   const toggleDrawer = () => {
     //Props to open/close the drawer

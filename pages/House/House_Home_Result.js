@@ -7,6 +7,8 @@ const House_Home_Result = ({ route, navigation }) => {
     const amount_investment = Number(route.params.amount_investment.amount_investment_value);
     const amount_holding = Number(route.params.amount_investment.amount_investment_value);
     const amount_loanable = Number(route.params.amount_investment.amount_investment_value);
+    var img_path = '../../images/number';
+
     
     return (
         <View style={styles.inputContainer}>
