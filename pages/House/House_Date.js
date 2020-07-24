@@ -1,24 +1,85 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
-import Icon from 'react-native-vector-icons';
 
 const House_Date = ({ navigation }) => {
-    const [amount_wanted_value, set_amount_wanted_value] = useState('');
-    const [amount_investment_value, set_amount_investment_value] = useState('');
-    const [amount_holding_value, set_amount_holding_value] = useState('');
-    const [amount_loanable_value, set_amount_loanable_value] = useState('');
+    const [date_data, setValues] = useState ({
+        amount_wanted: '',
+        amount_investment: '',
+        amount_holding: '',
+        amount_loanable: '',
+    });
+    const numbers = '0123456789';
 
-    const onChange_amount_wanted_value = text => {
-        set_amount_wanted_value(text);
+    const onChange_amount_wanted = text => {
+        let newText = '';
+        if(text !== ''){
+            for(var i = 0; i<text.length; i++){
+                if(numbers.indexOf(text[i])>-1){
+                    newText = newText + text[i];
+                }
+                else{
+                    alert("please enter numbers only");
+                }
+            }
+        }
+        setValues({
+            ...date_data,
+            ["amount_wanted"]: newText
+        });
     };
-    const onChange_amount_investment_value = text => {
-        set_amount_investment_value(text);
+
+    const onChange_amount_investment = text => {
+        let newText = '';
+        if(text !== ''){
+            for(var i = 0; i<text.length; i++){
+                if(numbers.indexOf(text[i])>-1){
+                    newText = newText + text[i];
+                }
+                else{
+                    alert("please enter numbers only");
+                }
+            }
+        }
+        setValues({
+            ...date_data,
+            ["amount_investment"]: newText
+        });
     };
-    const onChange_amount_holding_value = text => {
-        set_amount_holding_value(text);
+
+    const onChange_amount_holding = text => {
+        let newText = '';
+        if(text !== ''){
+            for(var i = 0; i<text.length; i++){
+                if(numbers.indexOf(text[i])>-1){
+                    newText = newText + text[i];
+                }
+                else{
+                    alert("please enter numbers only");
+                }
+            }
+        }
+        setValues({
+            ...date_data,
+            ["amount_holding"]: newText
+        });
     };
-    const onChange_amount_loanable_value = text => {
-        set_amount_loanable_value(text);
+
+    const onChange_amount_loanable = text => {
+        let newText = '';
+        if(text !== ''){
+            for(var i = 0; i<text.length; i++){
+                if(numbers.indexOf(text[i])>-1){
+                    newText = newText + text[i];
+                }
+                else{
+                    alert("please enter numbers only");
+                }
+            }
+        }
+        setValues({
+            ...date_data,
+            ["amount_loanable"]: newText
+        });
     };
 
     return (
@@ -30,10 +91,10 @@ const House_Date = ({ navigation }) => {
                     placeholder="0"
                     placeholderTextColor={'#999'}
                     autoCorrect={false}
-                    value = {amount_wanted_value}
-                    onChangeText = {onChange_amount_wanted_value}
+                    value = {date_data.amount_wanted}
+                    onChangeText = {onChange_amount_wanted}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>투자가능금액</Text>
@@ -42,10 +103,10 @@ const House_Date = ({ navigation }) => {
                     placeholder="0"
                     placeholderTextColor={'#999'}
                     autoCorrect={false}
-                    value = {amount_investment_value}
-                    onChangeText = {onChange_amount_investment_value}
+                    value = {date_data.amount_investment}
+                    onChangeText = {onChange_amount_investment}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>보유금액</Text>
@@ -54,10 +115,10 @@ const House_Date = ({ navigation }) => {
                     placeholder="0"
                     placeholderTextColor={'#999'}
                     autoCorrect={false}
-                    value = {amount_holding_value}
-                    onChangeText = {onChange_amount_holding_value}
+                    value = {date_data.amount_holding}
+                    onChangeText = {onChange_amount_holding}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>대출가능금액</Text>
@@ -66,19 +127,14 @@ const House_Date = ({ navigation }) => {
                     placeholder="0"
                     placeholderTextColor={'#999'}
                     autoCorrect={false}
-                    value = {amount_loanable_value}
-                    onChangeText = {onChange_amount_loanable_value}
+                    value = {date_data.amount_loanable}
+                    onChangeText = {onChange_amount_loanable}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             
             <View style={styles.button}>
-                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Date_Result_Page', {
-                    amount_wanted: {amount_wanted_value},
-                    amount_investment: {amount_investment_value},
-                    amount_holding: {amount_holding_value},
-                    amount_loanable: {amount_loanable_value},
-                })}/>
+                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Date_Result_Page', date_data)}/>
             </View>
         </View>
     );
