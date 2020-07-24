@@ -8,9 +8,6 @@ const House_Date_Result = ({ route, navigation }) => {
         amount_holding: Number(route.params.amount_holding),
         amount_loanable: Number(route.params.amount_loanable),
     }
-
-    console.log(date_data);
-
     const img_path = '../../images/number';
 
     return (

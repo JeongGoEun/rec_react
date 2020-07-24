@@ -73,7 +73,8 @@ class CalcBroker extends React.Component {
                             onPress={this.updateContractIndex}
                             selectedIndex={selectedIndex}
                             buttons={contractButtons}
-                            containerStyle={{ height: 30 }}
+                            containerStyle={{ height: 30, }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View>
 
@@ -83,6 +84,7 @@ class CalcBroker extends React.Component {
                             selectedIndex={houseIndex}
                             buttons={houseButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View >
                 </View>
@@ -114,6 +116,8 @@ class CalcBroker extends React.Component {
                                 <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
                             }
                             title="계산"
+                            titleStyle={{color: '#fff',}}
+                            buttonStyle={{backgroundColor: '#FFBC00'}}
                             onPress = {() => {
                                 navigation.navigate('CalcResultPage',{
                                     // send result data

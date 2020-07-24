@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { View, Text, SafeAreaView, ScrollView } from 'react-native';
 import { Icon, ButtonGroup, Input, Button } from 'react-native-elements'
+import * as util from './util'
+
 
 // 간주 임대료
 class CalcDti extends React.Component {
@@ -43,11 +45,12 @@ class CalcDti extends React.Component {
     }
 
     onTermTextChange = (key, text) => {
-        var convertTxt = text;
-        if (text.length == 8) {
-            // YYYY-MM-DD형태로 만들기
-            convertTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+        var convertTxt = text.replace(/-/g,"");
+        //console.log('onTermChange ',text.replace(/-/g,""))
 
+        if (convertTxt.length == 8) {
+            // YYYY-MM-DD형태로 만들기
+            convertTxt = util.convertYearFormat(text);
         }
         if(key == 'inDateText') {
             this.data.result.inDate=text;
@@ -91,6 +94,7 @@ class CalcDti extends React.Component {
                             selectedIndex={termIndex}
                             buttons={termButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View>
                     <View style={{ marginBottom: 20 }}>
@@ -99,6 +103,7 @@ class CalcDti extends React.Component {
                             selectedIndex={rateIndex}
                             buttons={rateButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View >
                     <View style={{}}>
@@ -158,6 +163,8 @@ class CalcDti extends React.Component {
                             <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
                         }
                         title="계산"
+                        titleStyle={{color: '#fff',}}
+                        buttonStyle={{backgroundColor: '#FFBC00'}}
                         onPress={() => {
                             navigation.navigate('CalcResultPage', {
                                 // send result data
