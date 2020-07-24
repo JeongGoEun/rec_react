@@ -143,9 +143,9 @@ class CalcResultPage extends React.Component {
         this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1', '2', '3'];
         this.data.tableData = [
-            [data.headerText.substr(0, 3), data.fee * 10000],
+            [data.headerText.substr(0, 3), util.convertMoney(data.fee * 10000)],
             ['상한요율', payRate.toFixed(1)],
-            ['중개수수료', parseInt(result * 10000)]
+            ['중개수수료', util.convertMoney(parseInt(result * 10000))]
         ];
     }
 
