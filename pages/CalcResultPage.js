@@ -315,7 +315,7 @@ class CalcResultPage extends React.Component {
                         </View>
 
                         <View style={{ padding: 16, flex: 1, marginTop: 10}}>
-                            <View style={calcStyle.calcDescriptionStyle}>
+                            <View style={{borderWidth:2, padding: 13, borderRadius: 15}}>
                                 <View style={{ flexDirection: "row" }}>
                                     <Icon type='ionicon' name='alert-circle' style={{ alignSelf: "flex-end", marginRight: 10 }} />
                                     <Text style={{ fontSize: 18, marginBottom: 7 }}>참고사항</Text>
@@ -330,7 +330,8 @@ class CalcResultPage extends React.Component {
                             <Button
                                 title='메인화면'
                                 type="solid"
-                                titleStyle={calcStyle.btnTextColor}
+                                titleStyle={{color: '#fff',}}
+                                buttonStyle={{backgroundColor: '#FFBC00'}}
                                 onPress={() => {
                                     navigation.navigate('CalcPage');
                                 }}

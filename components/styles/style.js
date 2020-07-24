@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   calcDescriptionStyle: { //계산기 설명 부분
-    backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15, borderWidth:2
+    backgroundColor: '#E0E0E0', padding: 13, borderRadius: 15
   }
 });
 

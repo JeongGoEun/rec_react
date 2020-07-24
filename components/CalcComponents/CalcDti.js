@@ -94,6 +94,7 @@ class CalcDti extends React.Component {
                             selectedIndex={termIndex}
                             buttons={termButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View>
                     <View style={{ marginBottom: 20 }}>
@@ -102,6 +103,7 @@ class CalcDti extends React.Component {
                             selectedIndex={rateIndex}
                             buttons={rateButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View >
                     <View style={{}}>
@@ -161,6 +163,8 @@ class CalcDti extends React.Component {
                             <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
                         }
                         title="계산"
+                        titleStyle={{color: '#fff',}}
+                        buttonStyle={{backgroundColor: '#FFBC00'}}
                         onPress={() => {
                             navigation.navigate('CalcResultPage', {
                                 // send result data
