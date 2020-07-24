@@ -1,15 +1,18 @@
 import * as React from 'react';
-import { View, Text, SafeAreaView, StyleSheet } from 'react-native';
+import { View, SafeAreaView, StyleSheet } from 'react-native';
 import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'
-import { Button } from 'react-native-elements'
-import CalcBroker from '../components/CalcComponents/CalcBroker'
+import { Button, Text,Icon } from 'react-native-elements'
+import { ScrollView } from 'react-native-gesture-handler';
 
 import calcStyle from '../components/styles/style'
 
 import * as util from '../components/CalcComponents/util'
+import * as textUtil from '../components/CalcComponents/text'
 
 class CalcResultPage extends React.Component {
     data = {
+        title: '',
+        description: '',
         result: {},
         tableHead: [],
         tableTitle: [],
@@ -33,9 +36,11 @@ class CalcResultPage extends React.Component {
         switch (this.data.result.id) {
             case 1:
                 this.getBrokerFee();    //중개보수
+                this.data.title = '<중개보수 결과>';
                 break;
             case 2:
                 this.getDti();          //간주임대료
+                this.data.title = '<간주임대료 결과>';
                 break;
             case 3:
                 this.getSubscriptionFee();
@@ -47,6 +52,8 @@ class CalcResultPage extends React.Component {
             case 6:
                 break;
         }
+        // 참고 설명
+        this.data.description = textUtil.resultText.descript.text[this.data.result.id];
     }
     /**
      * @params
@@ -183,13 +190,13 @@ class CalcResultPage extends React.Component {
             ['간주임대료', util.convertMoney(parseInt(conRentFee))]
         ];
         // 기간 지정 시
-        if(result.termIndex == 1) {
-            this.data.tableTitle = [...this.data.tableTitle, '5','6','7','8'];
+        if (result.termIndex == 1) {
+            this.data.tableTitle = [...this.data.tableTitle, '5', '6', '7', '8'];
 
-            this.data.tableData.splice(2,0,['입주일',util.convertYearFormat(result.inDate)]);
-            this.data.tableData.splice(3,0,['퇴거일',util.convertYearFormat(result.outDate)]);
-            this.data.tableData.splice(4,0,['임대기간',days]);
-            this.data.tableData.splice(5,0,['적용 비율',localrate]);
+            this.data.tableData.splice(2, 0, ['입주일', util.convertYearFormat(result.inDate)]);
+            this.data.tableData.splice(3, 0, ['퇴거일', util.convertYearFormat(result.outDate)]);
+            this.data.tableData.splice(4, 0, ['임대기간', days]);
+            this.data.tableData.splice(5, 0, ['적용 비율', localrate]);
         }
     }
 
@@ -287,12 +294,16 @@ class CalcResultPage extends React.Component {
 
     render() {
         const { navigation } = this.props;
+        const {id} = this.data.result.id;
 
         return (
-            <SafeAreaView style={{ flex: 1 }}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#E0E0E0' }}>
                 {this.state.isCalculated
                     ?
-                    <View style={{ flex: 1, padding: 50, backgroundColor: '#E0E0E0' }}>
+                    <View style={{ flex: 1, paddingHorizontal: 50 }}>
+                        <View style={{ padding: 20, }}>
+                            <Text style={{ textAlign: 'center', fontSize: 20 }}>{this.data.title}</Text>
+                        </View>
                         <View style={{ flex: 2 }}>
                             <Table borderStyle={{ borderWidth: 1, borderColor: '#FFBC00' }}>
                                 <Row data={this.data.tableHead} flexArr={[1, 2, 3]} style={styles.head} textStyle={styles.text} />
@@ -303,7 +314,19 @@ class CalcResultPage extends React.Component {
                             </Table>
                         </View>
 
-                        <View style={{ flex: 1, paddingHorizontal: 80, justifyContent: "flex-end" }}>
+                        <View style={{ padding: 16, flex: 1, marginTop: 10}}>
+                            <View style={calcStyle.calcDescriptionStyle}>
+                                <View style={{ flexDirection: "row" }}>
+                                    <Icon type='ionicon' name='alert-circle' style={{ alignSelf: "flex-end", marginRight: 10 }} />
+                                    <Text style={{ fontSize: 18, marginBottom: 7 }}>참고사항</Text>
+                                </View>
+                                <View>
+                                    <Text >{this.data.description}</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{ flex: 1, paddingHorizontal: 80, justifyContent: "flex-end", marginTop: 20 }}>
                             <Button
                                 title='메인화면'
                                 type="solid"
@@ -315,10 +338,10 @@ class CalcResultPage extends React.Component {
                         </View>
                     </View>
                     :
-                    <View style={{ flex: 1, padding: 16, backgroundColor: '#E0E0E0' }}>
+                    <View>
                         <Text>Calc Result Page</Text>
                     </View>}
-            </SafeAreaView>
+            </ScrollView>
         );
     }
 }
@@ -329,6 +352,6 @@ const styles = StyleSheet.create({
     wrapper: { flexDirection: 'row' },
     title: { flex: 1, backgroundColor: '#f6f8fa' },
     row: { height: 40 },
-    text: { textAlign: 'center', fontSize: 17 }
+    text: { textAlign: 'center', fontSize: 16 }
 });
 export default CalcResultPage;
