@@ -2,10 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
 
 const House_Date_Result = ({ route, navigation }) => {
-    const amount_wanted = Number(route.params.amount_wanted.amount_wanted_value);
-    const amount_investment = Number(route.params.amount_investment.amount_investment_value);
-    const amount_holding = Number(route.params.amount_holding.amount_holding_value);
-    const amount_loanable = Number(route.params.amount_loanable.amount_loanable_value);
+    const date_data = {
+        amount_wanted: Number(route.params.amount_wanted),
+        amount_investment: Number(route.params.amount_investment),
+        amount_holding: Number(route.params.amount_holding),
+        amount_loanable: Number(route.params.amount_loanable),
+    }
+
+    console.log(date_data);
+
+    const img_path = '../../images/number';
 
     return (
         <View style={styles.inputContainer}>
