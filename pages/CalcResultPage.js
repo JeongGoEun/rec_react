@@ -13,7 +13,8 @@ class CalcResultPage extends React.Component {
         result: {},
         tableHead: [],
         tableTitle: [],
-        tableData: []
+        tableData: [],
+        ltv_result: 0, // LTV 계산 결과값 (Percent)
     }
 
     constructor(props) {
@@ -32,15 +33,17 @@ class CalcResultPage extends React.Component {
 
         switch (this.data.result.id) {
             case 1:
-                this.getBrokerFee();    //중개보수
+                this.getBrokerFee();    // 중개보수
                 break;
             case 2:
-                this.getDti();          //간주임대료
+                this.getDti();          // 간주임대료
                 break;
             case 3:
-                this.getSubscriptionFee();
+                this.getSubscriptionFee();      // 청약 가점 계산
                 break;
             case 4:
+                console.log(this.data.result)
+                this.getLtv();      // 주택담보 대출비율
                 break;
             case 5:
                 break;
@@ -58,6 +61,7 @@ class CalcResultPage extends React.Component {
             monthlyFee: 0   //월세
         }
      */
+    
     getBrokerFee = () => {
         const data = this.data.result;
         var transactionValue = 0, payRate = 0.01, result = 0;
@@ -263,7 +267,61 @@ class CalcResultPage extends React.Component {
                                 ['청약통장 가입기간',data.period_score],
                                 ['보유하신 가구수',houseNum_score],
                                 ['만 60세 이상 직계존속 보유가구수',parent_houseNum_score]];        
+        this.data.score = data.score + family_score + data.period_score + houseNum_score + parent_houseNum_score;
         console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
+    }
+
+    getLtv = () => {
+        console.log("아파트 ID : ", this.data.result.home_type)
+        const data = this.data.result
+
+        if (data.home_type === 0) { // 아파트인 경우
+            console.log(data.loan, data.price, data.rent_deposit, data.other_loans)
+            var possible_loan = data.price - data.rent_deposit - data.other_loans;
+            this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            console.log("아파트 : ", this.data.score)
+
+            // 결과
+            this.data.tableTitle = ['1', '2', '3', '4', '5', '6'];
+            this.data.tableHead = ['#', '기준', '금액'];
+                
+            this.data.tableData = [['대출금액',data.loan], 
+                                ['주택시세',data.price], 
+                                ['임차보증금',data.rent_deposit],
+                                ['기대출액',data.other_loans],
+                                ['담보가능금액',possible_loan],
+                                ['LTV', this.data.score]];  
+        } else { //기타 주택인 경우
+            var deposit = 0;
+            if(data.area_type === 0){ // 서울
+                deposit = 3700
+            } else if (data.area_type === 1) { // 수도권
+                deposit = 3400
+            } else if (data.area_type === 2) { // 광역시
+                deposit = 2000
+            } else { // 기타
+                deposit = 2000
+            }
+            console.log("대출금액 : ", typeof(data.loan))
+
+            var possible_loan = data.price - data.rent_deposit - data.other_loans - (data.room-1) * deposit
+            this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            console.log("기타주택 : ", this.data.score)
+
+            // 결과
+            this.data.tableTitle = ['1', '2', '3', '4', '5', '6', '7']; 
+            this.data.tableHead = ['#', '기준', '금액'];
+                
+            this.data.tableData = [['대출금액',data.loan], 
+                                ['주택시세',data.price], 
+                                ['임차보증금',data.rent_deposit],
+                                ['기대출액',data.other_loans],
+                                ['소액보증금',(data.room-1) * deposit],
+                                ['담보가능금액',possible_loan],
+                                ['LTV', this.data.score]];   
+        }
+
+        
     }
 
     render() {
@@ -280,7 +338,9 @@ class CalcResultPage extends React.Component {
                                 <TableWrapper style={styles.wrapper}>
                                     <Col data={this.data.tableTitle} style={styles.title} heightArr={[40, 40, 40]} textStyle={styles.text} />
                                     <Rows data={this.data.tableData} flexArr={[2, 3]} style={styles.row} textStyle={styles.text} />
+                                    
                                 </TableWrapper>
+                                <Row data={["합계", this.data.score]} flexArr={[3, 3]} style={styles.head} textStyle={styles.text} />
                             </Table>
                         </View>
 
