@@ -8,6 +8,7 @@ class CalcLease extends React.Component {
         inputTextHeader: '매입가격(단위: 만원)',
         result: {
             id: 6,  // 임대수익률은 아이디가 5
+            checked: false,             //false: 대출x, true: 대출o
             price_purchase: 0,          //매입가격
             deposit_total: 0,           //보증금 총액
             rent_monthly: 0,            //월 임대료
@@ -31,10 +32,10 @@ class CalcLease extends React.Component {
         }
     }
 
-    // updateConvertIndex = (ch) => {
-    //     this.data.result.convertIndex = idx;
-    //     this.setState({ convertIndex: idx });
-    // }
+    updateChecked = () => {
+        this.data.result.checked = !this.state.checked;
+        this.setState({checked: !this.state.checked});
+    }
 
     render() {
         const { navigation } = this.props;
@@ -58,7 +59,7 @@ class CalcLease extends React.Component {
                     <CheckBox
                         title='대출 포함'
                         checked={this.state.checked}
-                        onPress={() => this.setState({ checked: !this.state.checked })}
+                        onPress={this.updateChecked}
                         containerStyle={{ backgroundColor: "E0E0E0" }}
                         checkedColor={'#FFBC00'}
                     />

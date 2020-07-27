@@ -296,13 +296,13 @@ class CalcResultPage extends React.Component {
         console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
     }
 
-    getRent = () => {   // 전/월세 전환 공식 확인 필요
+    getRent = () => {   // 전/월세 전환
         const result = this.data.result;
         var proper_deposit_monthly = 0;     //적정 월세 보증금
         var proper_deposit_long_term = 0;   //적정 전세 보증금
 
         if(result.convertIndex == 1){ //월세 -> 전세
-            proper_deposit_long_term = parseInt((result.payment_monthly * 12) / (result.conversion_rate * 100) + result.deposit_monthly);
+            proper_deposit_long_term = parseInt((result.payment_monthly * 12 / result.conversion_rate * 100) + result.deposit_monthly);
             this.data.tableHead = ['#', '적요', '금액'];
             this.data.tableTitle = ['1', '2', '3', '4'];
             this.data.tableData = [
@@ -313,7 +313,7 @@ class CalcResultPage extends React.Component {
             ];
         }
         else{   //전세 -> 월세
-            proper_deposit_monthly = parseInt(result.payment_long_term - (result.payment_monthly * 12 / result.conversion_rate) * 100);
+            proper_deposit_monthly = parseInt(result.deposit_long_term - (result.payment_monthly * 12 / result.conversion_rate * 100));
             this.data.tableHead = ['#', '적요', '금액'];
             this.data.tableTitle = ['1', '2', '3', '4'];
             this.data.tableData = [
@@ -323,24 +323,22 @@ class CalcResultPage extends React.Component {
                 ['적정 월세 보증금', proper_deposit_monthly]
             ];
         }
-        //참고사항 작성 필요
     }
 
-    getLease = () => {  // 6. 임대수익률 (checked 값 받아와야 하는지?)
+    getLease = () => {  // 6. 임대수익률
         const result = this.data.result;
-        var rental_yield = 0.0; //임대수익률
-        // checked 없어서 작동 x
+        var rental_yield = 0.0;     //임대수익률
         if(result.checked == true){ //대출 있을 시 임대수익률
-            rental_yield = ((rent_monthly * 12) - (amount_loan * rate_loan_interest / 100)) / (price_purchase - deposit_total - fee_additional - amount_loan) * 100;
+            rental_yield = ((result.rent_monthly * 12) - (result.amount_loan * result.rate_loan_interest / 100)) / (result.price_purchase - result.deposit_total - result.fee_additional - result.amount_loan) * 100;
         }
-        else{
-            rental_yield = (rent_monthly * 12) - (price_purchase - deposit_total - fee_additional) * 100;
+        else{                       //대출 없을 시 임대수익률
+            rental_yield = (result.rent_monthly * 12) / (result.price_purchase - result.deposit_total - result.fee_additional) * 100;
         }
+        rental_yield = rental_yield.toFixed(3);
         this.data.tableHead = ['#', '적요', '금액'];
-        this.data.tableTitle = ['1', '2'];
+        this.data.tableTitle = ['1'];
         this.data.tableData = [
             ['임대수익률', rental_yield],
-            ['일단빈값', result.rate],
         ];
     }
 
