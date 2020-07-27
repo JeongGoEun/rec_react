@@ -6,7 +6,6 @@ const House_Date = ({ navigation }) => {
         amount_wanted: '',
         amount_investment: '',
         amount_holding: '',
-        amount_loanable: '',
     });
     const numbers = '0123456789';
 
@@ -64,24 +63,6 @@ const House_Date = ({ navigation }) => {
         });
     };
 
-    const onChange_amount_loanable = text => {
-        let newText = '';
-        if(text !== ''){
-            for(var i = 0; i<text.length; i++){
-                if(numbers.indexOf(text[i])>-1){
-                    newText = newText + text[i];
-                }
-                else{
-                    alert("please enter numbers only");
-                }
-            }
-        }
-        setValues({
-            ...date_data,
-            ["amount_loanable"]: newText
-        });
-    };
-
     return (
         <View style={styles.inputContainer}>
             <View style={styles.container}>
@@ -97,7 +78,7 @@ const House_Date = ({ navigation }) => {
                 <Text>만원</Text>
             </View>
             <View style={styles.container}>
-                <Text>투자가능금액</Text>
+                <Text>투자가능금액(월)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="0"
@@ -109,7 +90,7 @@ const House_Date = ({ navigation }) => {
                 <Text>만원</Text>
             </View>
             <View style={styles.container}>
-                <Text>보유금액</Text>
+                <Text>보유금액(대출포함)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="0"
@@ -117,18 +98,6 @@ const House_Date = ({ navigation }) => {
                     autoCorrect={false}
                     value = {date_data.amount_holding}
                     onChangeText = {onChange_amount_holding}
-                />
-                <Text>만원</Text>
-            </View>
-            <View style={styles.container}>
-                <Text>대출가능금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {date_data.amount_loanable}
-                    onChangeText = {onChange_amount_loanable}
                 />
                 <Text>만원</Text>
             </View>

@@ -9,19 +9,60 @@ const House_Date_Result = ({ route, navigation }) => {
      * amount_wanted: 목표금액
      * amount_investment: 투자가능금액
      * amount_holding: 보유금액
-     * amount_loanable: 대출가능금액
      */
     const data = {
         amount_wanted: Number(route.params.amount_wanted),
         amount_investment: Number(route.params.amount_investment),
         amount_holding: Number(route.params.amount_holding),
-        amount_loanable: Number(route.params.amount_loanable),
-        year: 30,
+        year: 1,
         month: 1,
         coments_num: 1,
     }
-
-    
+    var num = 372;  //30년 11개월 + 1개월
+    var money = data.amount_wanted - data.amount_holding;
+    if(money <= 0){ //1개월 미만
+        data.year = data.month = 0;
+    }
+    else{
+        for(var i = 1; i<372; i++){
+            money = money - data.amount_investment;
+            if(money<=0){
+                num = i;
+                break;
+            }
+        }
+        if(num==372){   //30년 11개월 초과
+            data.year = 30;
+            data.month = 11;
+        }
+        else{
+            data.year = parseInt(num / 12);
+            num = num - data.year * 12;
+            data.month = num % 12;
+        }
+    }    
+    console.log('year: ', data.year);
+    console.log('month: ', data.month);
+    if(data.year==0){
+        if(data.month<=6){  //0년 6개월 이하
+            data.coments_num = 6;
+        }
+        else{               //1년 미만
+            data.coments_num = 1;
+        }
+    }
+    else if(data.year==1){  //2년 미만
+        data.coments_num = 2;
+    }
+    else if(data.year==2){  //3년 미만
+        data.coments_num = 3;
+    }
+    else if(data.year==3){  //4년 미만
+        data.coments_num = 4;
+    }
+    else{                   //4년 1개월 이상
+        data.coments_num = 5;
+    }
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
@@ -49,7 +90,6 @@ const House_Date_Result = ({ route, navigation }) => {
                     </View>
                 </View>
             </View>
-
 
             <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 60, paddingHorizontal: 160 }}>
                 <Button style={styles.button} title={'돌아가기'} onPress={() => navigation.navigate('House_Date_Page')} />
