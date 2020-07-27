@@ -1,10 +1,15 @@
-import React, { Component } from 'react';
-import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
+import React, { useState } from 'react';
+import { View, StyleSheet, Image, TouchableHighlight, Text, } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 
 import { } from '../images/real_estate.jpg'
 
 const CustomDrawer = ({ navigation }) => {
+    const [idx, setIndex] = useState(0);
+    const pressOpacity = (index) => {
+        setIndex(index)
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ flex: 1, alignItems: 'center' }}>
@@ -16,10 +21,12 @@ const CustomDrawer = ({ navigation }) => {
                 }}
                     source={require('../images/real_estate.jpg')} />
             </View>
-            <View style={{ flex: 1, padding: 20, paddingHorizontal: 30 }}>
-                <TouchableOpacity
+            <View style={{ flex: 1, padding: 20 }}>
+                <TouchableHighlight
                     style={{height: 48, justifyContent: 'center', marginBottom: 10}}
                     onPress={() => navigation.navigate('CalcPage')}
+                    activeOpacity={0.6}
+                    underlayColor='#DDDDDD'
                 >
                     <View style={{ flexDirection: 'row' }}>
                         <Icon
@@ -30,10 +37,12 @@ const CustomDrawer = ({ navigation }) => {
                         />
                         <Text style={{fontSize: 17}}> 부동산 계산기</Text>
                     </View>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </TouchableHighlight>
+                <TouchableHighlight
                     style={{height: 48, justifyContent: 'center', marginBottom: 10}}
                     onPress={() => navigation.navigate('HousePage')}
+                    activeOpacity={0.6}
+                    underlayColor='#DDDDDD'
                 >
                     <View style={{ flexDirection: 'row' }}>
                         <Icon
@@ -44,10 +53,12 @@ const CustomDrawer = ({ navigation }) => {
                         />
                         <Text style={{fontSize: 17}}> 내 집 마련</Text>
                     </View>
-                </TouchableOpacity>
-                <TouchableOpacity
+                </TouchableHighlight>
+                <TouchableHighlight
                     style={{height: 48, justifyContent: 'center', marginBottom: 10}}
                     onPress={() => navigation.navigate('NewsPage')}
+                    activeOpacity={0.6}
+                    underlayColor='#DDDDDD'
                 >
                     <View style={{ flexDirection: 'row' }}>
                         <Icon
@@ -58,7 +69,7 @@ const CustomDrawer = ({ navigation }) => {
                         />
                         <Text style={{fontSize: 17}}> 부동산 뉴스</Text>
                     </View>
-                </TouchableOpacity>
+                </TouchableHighlight>
             </View>
 
             <View style={{ flex: 1, alignItems: 'center',  }}>
