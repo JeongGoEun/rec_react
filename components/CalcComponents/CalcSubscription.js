@@ -209,6 +209,8 @@ class CalcSubscription extends React.Component {
                             <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
                         }
                         title="계산"
+                        titleStyle={{color: '#fff',}}
+                        buttonStyle={{backgroundColor: '#FFBC00'}}
                         onPress={() => {
                             navigation.navigate('CalcResultPage', {
                                 // send result data

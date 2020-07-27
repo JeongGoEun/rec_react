@@ -158,21 +158,23 @@ class CalcLtv extends React.Component {
                         
                     </View>
 
-                    <View style={{ flex: 1, paddingHorizontal: 120, justifyContent: "flex-end" }}>
-                        <Button
-                            icon={
-                                <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
-                            }
-                            title="계산"
-                            onPress={() => {
-                                navigation.navigate('CalcResultPage', {
-                                    // send result data
-                                    result: this.data.result
-                                });
-                            }}
-                        />
-                    </View>
-                </SafeAreaView>
+                <View style={{ flex: 1, paddingHorizontal: 120, justifyContent: "flex-end" }}>
+                    <Button
+                        icon={
+                            <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
+                        }
+                        title="계산"
+                        titleStyle={{color: '#fff',}}
+                        buttonStyle={{backgroundColor: '#FFBC00'}}
+                        onPress={() => {
+                            navigation.navigate('CalcResultPage', {
+                                // send result data
+                                result: this.data.result
+                            });
+                        }}
+                    />
+                </View>
+            </SafeAreaView>
             </ScrollView>
         );
     }
