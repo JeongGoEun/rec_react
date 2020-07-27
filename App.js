@@ -17,6 +17,7 @@ import House_Home from './pages/House/House_Home';
 import House_Date_Result from './pages/House/House_Date_Result';
 import House_Home_Result from './pages/House/House_Home_Result';
 import NewsPage from './pages/NewsPage';
+import CustomDrawer from './components/CustomDrawer'
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -204,6 +205,7 @@ function App() {
   return (
     <NavigationContainer>
       <Drawer.Navigator
+        drawerContent={({navigation}) => <CustomDrawer navigation={navigation} />}
         drawerContentOptions={{
           activeTintColor: '#545045',
           itemStyle: { marginVertical: 5 },
