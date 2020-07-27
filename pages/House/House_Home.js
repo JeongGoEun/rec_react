@@ -7,7 +7,6 @@ const House_Home = ({ navigation }) => {
         date_month: '',
         amount_investment: '',
         amount_holding: '',
-        amount_loanable: '',
     });
     const numbers = '0123456789';
 
@@ -79,23 +78,6 @@ const House_Home = ({ navigation }) => {
             ["amount_holding"]: newText
         });
     };
-    const onChange_amount_loanable_value = text => {
-        let newText = '';
-        if(text !== ''){
-            for(var i = 0; i<text.length; i++){
-                if(numbers.indexOf(text[i])>-1){
-                    newText = newText + text[i];
-                }
-                else{
-                    alert("please enter numbers only");
-                }
-            }
-        }
-        setValues({
-            ...home_data,
-            ["amount_loanable"]: newText
-        });
-    };
 
     return (
         <View style={styles.inputContainer}>
@@ -121,7 +103,7 @@ const House_Home = ({ navigation }) => {
                 <Text>개월</Text>
             </View>
             <View style={styles.container}>
-                <Text>투자가능금액</Text>
+                <Text>투자가능금액(월)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="0"
@@ -133,7 +115,7 @@ const House_Home = ({ navigation }) => {
                 <Text>원</Text>
             </View>
             <View style={styles.container}>
-                <Text>보유금액</Text>
+                <Text>보유금액(대출포함)</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="0"
@@ -141,18 +123,6 @@ const House_Home = ({ navigation }) => {
                     autoCorrect={false}
                     value = {home_data.amount_holding}
                     onChangeText = {onChange_amount_holding_value}
-                />
-                <Text>원</Text>
-            </View>
-            <View style={styles.container}>
-                <Text>대출가능금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {home_data.amount_loanable}
-                    onChangeText = {onChange_amount_loanable_value}
                 />
                 <Text>원</Text>
             </View>
@@ -170,9 +140,6 @@ const House_Home = ({ navigation }) => {
                     </View>          
                 </TouchableOpacity>     
             </View>
-            {/* <View style={styles.button}>
-                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Home_Result_Page', home_data)}/>
-            </View> */}
         </View>
     );
 };

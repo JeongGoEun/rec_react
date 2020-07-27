@@ -7,7 +7,6 @@ const House_Home_Result = ({ route, navigation }) => {
         date_month: Number(route.params.home_data.date_month),
         amount_investment: Number(route.params.home_data.amount_investment),
         amount_holding: Number(route.params.home_data.amount_holding),
-        amount_loanable: Number(route.params.home_data.amount_loanable),
     }
     const img_path = '../../images/number';
 

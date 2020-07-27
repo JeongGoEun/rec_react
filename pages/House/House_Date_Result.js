@@ -41,8 +41,6 @@ const House_Date_Result = ({ route, navigation }) => {
             data.month = num % 12;
         }
     }    
-    console.log('year: ', data.year);
-    console.log('month: ', data.month);
     if(data.year==0){
         if(data.month<=6){  //0년 6개월 이하
             data.coments_num = 6;
