@@ -99,7 +99,7 @@ const House_Home = ({ navigation }) => {
 
     return (
         <View style={styles.inputContainer}>
-            <View style={styles.container}>
+            <View style={styles.container}>                
                 <Text>목표기간</Text>
                 <TextInput
                     style={styles.input}
@@ -156,10 +156,23 @@ const House_Home = ({ navigation }) => {
                 />
                 <Text>원</Text>
             </View>
-            
-            <View style={styles.button}>
-                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Home_Result_Page', home_data)}/>
+
+            <View style={styles.row_container}>
+                <TouchableOpacity onPress={() => navigation.navigate('House_Home_Result_Page', {home_data: home_data, idx: 0})}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>매 매</Text>
+                    </View>          
+                </TouchableOpacity> 
+                <View style={styles.buttonSpace}></View>  
+                <TouchableOpacity onPress={() => navigation.navigate('House_Home_Result_Page', {home_data: home_data, idx: 1})}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>전 세</Text>
+                    </View>          
+                </TouchableOpacity>     
             </View>
+            {/* <View style={styles.button}>
+                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Home_Result_Page', home_data)}/>
+            </View> */}
         </View>
     );
 };
@@ -174,13 +187,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
   },
-  button: {
-    marginTop: 30,
-    marginRight: 10,
-    marginLeft: 10,
-    marginBottom: 30,
-    width: 100,
+  row_container: {
     alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: 40,
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#2196F3'
   },
   buttonText: {
     textAlign: 'center',
@@ -189,6 +203,9 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     color: 'white'
+  },
+  buttonSpace: {
+    width: 20,  
   },
   input: {
       borderBottomColor: '#bbb',

@@ -3,13 +3,15 @@ import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'rea
 
 const House_Home_Result = ({ route, navigation }) => { 
     const home_data = {
-        date_year: Number(route.params.date_year),
-        date_month: Number(route.params.date_month),
-        amount_investment: Number(route.params.amount_investment),
-        amount_holding: Number(route.params.amount_holding),
-        amount_loanable: Number(route.params.amount_loanable),
+        date_year: Number(route.params.home_data.date_year),
+        date_month: Number(route.params.home_data.date_month),
+        amount_investment: Number(route.params.home_data.amount_investment),
+        amount_holding: Number(route.params.home_data.amount_holding),
+        amount_loanable: Number(route.params.home_data.amount_loanable),
     }
     const img_path = '../../images/number';
+
+    const tt = (home_data.date_year+home_data.date_month).toString();
 
     return (
         <View style={styles.inputContainer}>
@@ -20,6 +22,7 @@ const House_Home_Result = ({ route, navigation }) => {
                     placeholder="0"
                     placeholderTextColor={'#999'}
                     autoCorrect={false}
+                    value = {tt}
                 />
                 <Text>원</Text>
             </View>
