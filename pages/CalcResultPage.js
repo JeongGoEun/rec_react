@@ -271,6 +271,7 @@ class CalcResultPage extends React.Component {
         console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
     }
 
+    // LTV 계산
     getLtv = () => {
         console.log("아파트 ID : ", this.data.result.home_type)
         const data = this.data.result
@@ -278,7 +279,8 @@ class CalcResultPage extends React.Component {
         if (data.home_type === 0) { // 아파트인 경우
             console.log(data.loan, data.price, data.rent_deposit, data.other_loans)
             var possible_loan = data.price - data.rent_deposit - data.other_loans;
-            this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            if (possible_loan <= 0) this.data.score = 0
+            else this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
             console.log("아파트 : ", this.data.score)
 
             // 결과
@@ -305,7 +307,8 @@ class CalcResultPage extends React.Component {
             console.log("대출금액 : ", typeof(data.loan))
 
             var possible_loan = data.price - data.rent_deposit - data.other_loans - (data.room-1) * deposit
-            this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            if (possible_loan <= 0) this.data.score = 0
+            else this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
             console.log("기타주택 : ", this.data.score)
 
             // 결과
@@ -340,7 +343,7 @@ class CalcResultPage extends React.Component {
                                     <Rows data={this.data.tableData} flexArr={[2, 3]} style={styles.row} textStyle={styles.text} />
                                     
                                 </TableWrapper>
-                                <Row data={["합계", this.data.score]} flexArr={[3, 3]} style={styles.head} textStyle={styles.text} />
+                                <Row data={["결과", this.data.score]} flexArr={[3, 3]} style={styles.head} textStyle={styles.text} />
                             </Table>
                         </View>
 
