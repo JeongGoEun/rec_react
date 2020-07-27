@@ -16,7 +16,8 @@ class CalcResultPage extends React.Component {
         result: {},
         tableHead: [],
         tableTitle: [],
-        tableData: []
+        tableData: [],
+        ltv_result: 0, // LTV 계산 결과값 (Percent)
     }
 
     constructor(props) {
@@ -43,9 +44,11 @@ class CalcResultPage extends React.Component {
                 this.data.title = '<간주임대료 결과>';
                 break;
             case 3:
-                this.getSubscriptionFee();
+                this.getSubscriptionFee();      // 청약 가점 계산
                 break;
             case 4:
+                console.log(this.data.result)
+                this.getLtv();      // 주택담보 대출비율
                 break;
             case 5:
                 this.getRent();         //전/월세 변환
@@ -69,6 +72,7 @@ class CalcResultPage extends React.Component {
             monthlyFee: 0   //월세
         }
      */
+    
     getBrokerFee = () => {
         const data = this.data.result;
         var transactionValue = 0, payRate = 0.01, result = 0;
@@ -287,59 +291,69 @@ class CalcResultPage extends React.Component {
 
         // 결과
         this.data.tableHead = ['#', '기준', '가점점수'];
-        this.data.tableTitle = ['1', '2', '3', '4', '5'];
-        this.data.tableData = [['무주택 기간', data.score],
-        ['부양가족수', family_score],
-        ['청약통장 가입기간', data.period_score],
-        ['보유하신 가구수', houseNum_score],
-        ['만 60세 이상 직계존속 보유가구수', parent_houseNum_score]];
-        console.log("test", data.score, family_score, data.period_score, houseNum_score, parent_houseNum_score)
+        this.data.tableTitle = ['1', '2', '3', '4', '5', '6'];
+        this.data.tableData = [['무주택 기간',data.score], 
+                                ['부양가족수',family_score], 
+                                ['청약통장 가입기간',data.period_score],
+                                ['보유하신 가구수',houseNum_score],
+                                ['직계존속 보유가구수',parent_houseNum_score],
+                                ['총점',data.score + family_score + data.period_score + houseNum_score + parent_houseNum_score]];        
     }
 
-    getRent = () => {   // 전/월세 전환
-        const result = this.data.result;
-        var proper_deposit_monthly = 0;     //적정 월세 보증금
-        var proper_deposit_long_term = 0;   //적정 전세 보증금
+    // LTV 계산
+    getLtv = () => {
+        console.log("아파트 ID : ", this.data.result.home_type)
+        const data = this.data.result
 
-        if(result.convertIndex == 1){ //월세 -> 전세
-            proper_deposit_long_term = parseInt((result.payment_monthly * 12 / result.conversion_rate * 100) + result.deposit_monthly);
-            this.data.tableHead = ['#', '적요', '금액'];
-            this.data.tableTitle = ['1', '2', '3', '4'];
-            this.data.tableData = [
-                ['전월세전환율', result.conversion_rate],
-                ['현재 월세', result.payment_monthly],
-                ['현재 월세 보증금', result.deposit_monthly],
-                ['적정 전세 보증금', proper_deposit_long_term]
-            ];
-        }
-        else{   //전세 -> 월세
-            proper_deposit_monthly = parseInt(result.deposit_long_term - (result.payment_monthly * 12 / result.conversion_rate * 100));
-            this.data.tableHead = ['#', '적요', '금액'];
-            this.data.tableTitle = ['1', '2', '3', '4'];
-            this.data.tableData = [
-                ['전월세전환율', result.conversion_rate],
-                ['희망 월세', result.payment_monthly],
-                ['현재 전세 보증금', result.deposit_long_term],
-                ['적정 월세 보증금', proper_deposit_monthly]
-            ];
-        }
-    }
+        if (data.home_type === 0) { // 아파트인 경우
+            console.log(data.loan, data.price, data.rent_deposit, data.other_loans)
+            var possible_loan = data.price - data.rent_deposit - data.other_loans;
+            if (possible_loan <= 0) this.data.score = 0
+            else this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            console.log("아파트 : ", this.data.score)
 
-    getLease = () => {  // 6. 임대수익률
-        const result = this.data.result;
-        var rental_yield = 0.0;     //임대수익률
-        if(result.checked == true){ //대출 있을 시 임대수익률
-            rental_yield = ((result.rent_monthly * 12) - (result.amount_loan * result.rate_loan_interest / 100)) / (result.price_purchase - result.deposit_total - result.fee_additional - result.amount_loan) * 100;
+            // 결과
+            this.data.tableTitle = ['1', '2', '3', '4', '5', '6'];
+            this.data.tableHead = ['#', '기준', '금액'];
+                
+            this.data.tableData = [['대출금액',data.loan], 
+                                ['주택시세',data.price], 
+                                ['임차보증금',data.rent_deposit],
+                                ['기대출액',data.other_loans],
+                                ['담보가능금액',possible_loan],
+                                ['LTV', this.data.score]];  
+        } else { //기타 주택인 경우
+            var deposit = 0;
+            if(data.area_type === 0){ // 서울
+                deposit = 3700
+            } else if (data.area_type === 1) { // 수도권
+                deposit = 3400
+            } else if (data.area_type === 2) { // 광역시
+                deposit = 2000
+            } else { // 기타
+                deposit = 2000
+            }
+            console.log("대출금액 : ", typeof(data.loan))
+
+            var possible_loan = data.price - data.rent_deposit - data.other_loans - (data.room-1) * deposit
+            if (possible_loan <= 0) this.data.score = 0
+            else this.data.score = (((data.loan / possible_loan) * 100).toFixed(1)).toString() + ' %'
+            console.log("기타주택 : ", this.data.score)
+
+            // 결과
+            this.data.tableTitle = ['1', '2', '3', '4', '5', '6', '7']; 
+            this.data.tableHead = ['#', '기준', '금액'];
+                
+            this.data.tableData = [['대출금액',data.loan], 
+                                ['주택시세',data.price], 
+                                ['임차보증금',data.rent_deposit],
+                                ['기대출액',data.other_loans],
+                                ['소액보증금',(data.room-1) * deposit],
+                                ['담보가능금액',possible_loan],
+                                ['LTV', this.data.score]];   
         }
-        else{                       //대출 없을 시 임대수익률
-            rental_yield = (result.rent_monthly * 12) / (result.price_purchase - result.deposit_total - result.fee_additional) * 100;
-        }
-        rental_yield = rental_yield.toFixed(3);
-        this.data.tableHead = ['#', '적요', '금액'];
-        this.data.tableTitle = ['1'];
-        this.data.tableData = [
-            ['임대수익률', rental_yield],
-        ];
+
+        
     }
 
     render() {
@@ -360,7 +374,9 @@ class CalcResultPage extends React.Component {
                                 <TableWrapper style={styles.wrapper}>
                                     <Col data={this.data.tableTitle} style={styles.title} heightArr={[40, 40, 40]} textStyle={styles.text} />
                                     <Rows data={this.data.tableData} flexArr={[2, 3]} style={styles.row} textStyle={styles.text} />
+                                    
                                 </TableWrapper>
+                                
                             </Table>
                         </View>
 
@@ -404,5 +420,6 @@ const styles = StyleSheet.create({
     title: { flex: 1, backgroundColor: '#f6f8fa' },
     row: { height: 40 },
     text: { textAlign: 'center', fontSize: 16 }
-});
+}); 
+
 export default CalcResultPage;

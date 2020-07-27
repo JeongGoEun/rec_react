@@ -69,29 +69,29 @@ class CalcSubscription extends React.Component {
             //parentHouse_InputText: '', // 60세 이상 보유 가구수 표출 문자열
         }
     }
-/*
-    onhouseNumTextChange = (key, text) => {
-        var periodFromTxt = text;
-        if (text.length == 8) {
-            // YYYY-MM-DD형태로 만들기
-            periodFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
-
+    /*
+        onhouseNumTextChange = (key, text) => {
+            var periodFromTxt = text;
+            if (text.length == 8) {
+                // YYYY-MM-DD형태로 만들기
+                periodFromTxt = text.substr(0, 4) + '-' + text.substr(4, 2) + '-' + text.substr(6, 2);
+    
+            }
+            //console.log(key, text, '->', periodFromTxt);
+    
+            if(key == 'houseInputText') {
+                this.data.result.houseNum=parseInt(text);
+                this.setState({
+                    houseInputText: periodFromTxt
+                })
+            }else{
+                this.data.result.parent_houseNum=parseInt(text);
+                this.setState({
+                    parentHouse_InputText: periodFromTxt
+                })
+            }
         }
-        //console.log(key, text, '->', periodFromTxt);
-
-        if(key == 'houseInputText') {
-            this.data.result.houseNum=parseInt(text);
-            this.setState({
-                houseInputText: periodFromTxt
-            })
-        }else{
-            this.data.result.parent_houseNum=parseInt(text);
-            this.setState({
-                parentHouse_InputText: periodFromTxt
-            })
-        }
-    }
-*/
+    */
     render() {
         const { navigation } = this.props;
 
@@ -110,71 +110,96 @@ class CalcSubscription extends React.Component {
                 </View>
 
                 <View style={{ paddingHorizontal: 16, flex: 5 }}>
-                    <View style={{}}>
-                        <Picker
-                            // 무주택 기간 선택 
-                            selectedValue={this.state.termText}
-                            style={{ marginBottom: 6, borderWidth: 1 }}
-                            onValueChange={(itemValue, itemIndex) => {
-                                this.data.result.score = itemValue; // 점수 설정 부분
-                                this.setState({ termText: itemValue })
-                            }}>
-                            {this.state.pickerData.map((data, i) => {
-                                return (<Picker.Item label={data.label} value={data.value} key={i} />)
-                            })}
-                        </Picker>
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1, marginTop: 10 }} >
+                            <Icon name='done' type='material' color='#000000' size={30} />
+                        </View>
+                        <View style={{ flex: 9 }}>
+                            <Picker
+                                // 무주택 기간 선택 
+                                selectedValue={this.state.termText}
+                                style={{ marginBottom: 6, borderWidth: 1 }}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    this.data.result.score = itemValue; // 점수 설정 부분
+                                    this.setState({ termText: itemValue })
+                                }}>
+                                {this.state.pickerData.map((data, i) => {
+                                    return (<Picker.Item label={data.label} value={data.value} key={i} />)
+                                })}
+                            </Picker>
+                        </View>
                     </View>
-                    <View style={{}}>
-                        <Input keyboardType = 'numeric'
-                            // 부양 가족 수 
-                            placeholder='부양가족수 입력'
-                            label='부양가족수(단위: 명)'
-                            labelStyle={{ fontSize: 13 }}
-                            inputStyle={{ height: 13 }}
-                            style={{ fontSize: 8 }}
-                            onChangeText={text => this.data.result.familyNum = parseInt(text)}
-                        />
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1 }} >
+                            <Icon name='done' type='material' color='#000000' size={30} />
+                        </View>
+                        <View style={{ flex: 9 }}>
+                            <Input keyboardType='numeric'
+                                // 부양 가족 수 
+                                placeholder='부양가족수 입력'
+                                label='부양가족수(단위: 명)'
+                                labelStyle={{ fontSize: 13 }}
+                                inputStyle={{ height: 13 }}
+                                style={{ fontSize: 8, flex: 9 }}
+                                onChangeText={text => this.data.result.familyNum = parseInt(text)}
+                            />
+                        </View>
                     </View>
-                    
-                    <View style={{}}>
-                        <Picker        
-                            // 청약 통장 가입 기간
-                            selectedValue={this.state.periodText}
-                            style={{ marginBottom: 6, borderWidth: 1 }}
-                            onValueChange={(itemValue, itemIndex) => {
-                                this.data.result.period_score = itemValue; // 점수 설정 부분
-                                this.setState({ periodText: itemValue })
-                            }}>
-                            {this.state.periodData.map((data, i) => {
-                                return (<Picker.Item label={data.label} value={data.value} key={i} />)
-                            })}
-                        </Picker>
-                    </View> 
+
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1, marginTop: 10 }} >
+                            <Icon name='done' type='material' color='#000000' size={30} />
+                        </View>
+                        <View style={{ flex: 9 }}>
+                            <Picker
+                                // 청약 통장 가입 기간
+                                selectedValue={this.state.periodText}
+                                style={{ marginBottom: 6, borderWidth: 1 }}
+                                onValueChange={(itemValue, itemIndex) => {
+                                    this.data.result.period_score = itemValue; // 점수 설정 부분
+                                    this.setState({ periodText: itemValue })
+                                }}>
+                                {this.state.periodData.map((data, i) => {
+                                    return (<Picker.Item label={data.label} value={data.value} key={i} />)
+                                })}
+                            </Picker>
+                        </View>
+                    </View>
 
 
-                    <View style={{}}>
-                        <Input keyboardType = 'numeric'
-                            placeholder='가구수 입력'
-                            label='보유가구수'
-                            labelStyle={{ fontSize: 13 }}
-                            inputStyle={{ height: 13 }}
-                            style={{ fontSize: 8 }}
-                            //value={this.state.houseInputText}
-                            onChangeText={text => this.data.result.houseNum = parseInt(text)}
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1 }} >
+                            <Icon name='done' type='material' color='#000000' size={30} />
+                        </View>
+                        <View style={{ flex: 9 }}>
+                            <Input keyboardType='numeric'
+                                placeholder='가구수 입력'
+                                label='보유가구수'
+                                labelStyle={{ fontSize: 13 }}
+                                inputStyle={{ height: 13 }}
+                                style={{ fontSize: 8 }}
+                                //value={this.state.houseInputText}
+                                onChangeText={text => this.data.result.houseNum = parseInt(text)}
                             //onChangeText = {(text) => this.onhouseNumTextChange('houseInputText', text)}
-                        />
+                            />
+                        </View>
                     </View>
-                    <View style={{}}>
-                        <Input keyboardType = 'numeric'
-                            placeholder='가구수 입력'
-                            label='만 60세 이상 직계존속 보유가구수'
-                            labelStyle={{ fontSize: 13 }}
-                            inputStyle={{ height: 13 }}
-                            //value={this.state.parentHouse_InputText}
-                            style={{ marginBottom: 2, fontSize: 8, height: 5 }}
-                            onChangeText = {(text) => this.data.result.parent_houseNum = parseInt(text)}
+                    <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flex: 1, marginTop: 10}} >
+                            <Icon name='done' type='material' color='#000000' size={30} />
+                        </View>
+                        <View style={{flex: 9}}>
+                            <Input keyboardType='numeric'
+                                placeholder='가구수 입력'
+                                label='만 60세 이상 직계존속 보유가구수'
+                                labelStyle={{ fontSize: 13 }}
+                                inputStyle={{ height: 13 }}
+                                //value={this.state.parentHouse_InputText}
+                                style={{ marginBottom: 2, fontSize: 8, height: 5 }}
+                                onChangeText={(text) => this.data.result.parent_houseNum = parseInt(text)}
                             //onChangeText = {(text) => this.onhouseNumTextChange('parentHouse_InputText', text)}/>
-                        />
+                            />
+                        </View>
                     </View>
                 </View>
 
