@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 
 const House_Home = ({ navigation }) => {
     const [home_data, setValues] = useState ({
@@ -112,7 +112,7 @@ const House_Home = ({ navigation }) => {
                     value = {home_data.amount_investment}
                     onChangeText = {onChange_amount_investment_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
             <View style={styles.container}>
                 <Text>보유금액(대출포함)</Text>
@@ -124,21 +124,10 @@ const House_Home = ({ navigation }) => {
                     value = {home_data.amount_holding}
                     onChangeText = {onChange_amount_holding_value}
                 />
-                <Text>원</Text>
+                <Text>만원</Text>
             </View>
-
-            <View style={styles.row_container}>
-                <TouchableOpacity onPress={() => navigation.navigate('House_Home_Result_Page', {home_data: home_data, idx: 0})}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>매 매</Text>
-                    </View>          
-                </TouchableOpacity> 
-                <View style={styles.buttonSpace}></View>  
-                <TouchableOpacity onPress={() => navigation.navigate('House_Home_Result_Page', {home_data: home_data, idx: 1})}>
-                    <View style={styles.button}>
-                        <Text style={styles.buttonText}>전 세</Text>
-                    </View>          
-                </TouchableOpacity>     
+            <View style={styles.button}>
+                <Button title={'분석하기'} onPress={() => navigation.navigate('House_Home_Result_Page', home_data)}/>
             </View>
         </View>
     );
@@ -160,6 +149,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
   },
   button: {
+    marginTop: 40,
     alignItems: 'center',
     backgroundColor: '#2196F3'
   },

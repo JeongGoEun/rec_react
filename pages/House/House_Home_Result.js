@@ -1,78 +1,94 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, Button } from 'react-native';
+import React from 'react';
+import { StyleSheet, SafeAreaView, View, Button } from 'react-native';
+import { Image, Text, Icon } from 'react-native-elements';
+import * as textUtil from './text_home.js';
 
 const House_Home_Result = ({ route, navigation }) => { 
-    const home_data = {
-        date_year: Number(route.params.home_data.date_year),
-        date_month: Number(route.params.home_data.date_month),
-        amount_investment: Number(route.params.home_data.amount_investment),
-        amount_holding: Number(route.params.home_data.amount_holding),
+    const data = {
+        date_year: Number(route.params.date_year),                  //date_year: 년(투자 가능)
+        date_month: Number(route.params.date_month),                //date_month: 개월(투자 가능)
+        amount_investment: Number(route.params.amount_investment),  //amount_investment: 투자 금액(월)
+        amount_holding: Number(route.params.amount_holding),        //amount_holding: 보유 금액
+    };
+    const result = {
+        idx: 1,                 //idx: 참조 index
+        money: 0,               //money: 모을 수 있는 돈
+        unit_first: 0,          //unit_first: 억 단위
+        unit_second: 0,         //unit_second: 만원 단위
+        unit_first_excess: 0    //unit_first_excess: 억 단위(15억 초과시)
     }
-    const img_path = '../../images/number';
 
-    const tt = (home_data.date_year+home_data.date_month).toString();
+    result.money = (data.date_year * 12 + data.date_month) * data.amount_investment + data.amount_holding;
+    if(result.money>=10000){    //1억 이상
+        result.unit_first = parseInt(result.money/10000);
+        if(result.unit_first>15) {  //15억 초과
+            result.unit_first_excess = result.unit_first;
+            result.unit_first = 15;
+        }
+        result.unit_second = result.money%10000;
+        result.idx = 1 + (5 * (result.unit_first - 1));
+        result.idx = parseInt(Math.floor(Math.random()*5) + result.idx);
+    }
+    else{   //1억 미만
+        result.unit_second = result.money;
+        result.idx = parseInt(Math.floor(Math.random()*5) + 1);
+    }
+    console.log(result);
+
+
+    //const img_path = '../../images/number';
+    // console.log(textUtil.homeAddr.address[0]);
+    // console.log(textUtil.homeAddr.address[1]);
+
+    const tt = (data.date_year+data.date_month).toString();
 
     return (
-        <View style={styles.inputContainer}>
-            <View style={styles.container}>
-                <Text>목표금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {tt}
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={{alignItems: "center", paddingTop: 10}}>
+                <Image
+                    source={{ uri: textUtil.homeAddr.img[result.idx] }}
+                    style={{ width: 330, height: 330, resizeMode: 'contain', borderRadius: 15 }}
                 />
-                <Text>원</Text>
             </View>
-            <View style={styles.container}>
-                <Text>투자가능금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                />
-                <Text>원</Text>
+
+            <View style={{ paddingHorizontal: 50, flex: 1, marginTop: 0 }}>
+                <View style={{ padding: 13, borderRadius: 15 }}>
+                    <View style={{ flexDirection: "row" }}>
+                        <Icon type='ionicon' name='home' style={{ alignSelf: "flex-end", marginRight: 10 }} />
+                        <Text style={{ fontSize: 18, marginBottom: 7 }}>주 소</Text>
+                    </View>
+                    <View>
+                        <Text style={{ fontSize: 16}}>{textUtil.homeAddr.address[result.idx]}</Text>
+                    </View>
+                </View>
             </View>
-            <View style={styles.container}>
-                <Text>보유금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                />
-                <Text>원</Text>
+
+            <View style={{ paddingHorizontal: 50, flex: 1, marginTop: 0 }}>
+                <View style={{ padding: 13, borderRadius: 15 }}>
+                    <View style={{ flexDirection: "row" }}>
+                        <Icon type='ionicon' name='wallet-outline' style={{ alignSelf: "flex-end", marginRight: 10 }} />
+                        <Text style={{ fontSize: 18, marginBottom: 7 }}>모을 수 있는 돈</Text>
+                    </View>
+                    {result.idx<=5?
+                        <View>
+                            <Text style={{ fontSize: 16}}>{result.unit_second}만원</Text>    
+                        </View>
+                        :
+                        <View>
+                            <Text style={{ fontSize: 16}}>{result.unit_first_excess>0?result.unit_first_excess:result.unit_first}억 {result.unit_second}만원</Text>
+                        </View>
+                    }                    
+                </View>
             </View>
-            <View style={styles.container}>
-                <Text>대출가능금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                />
-                <Text>원</Text>
+
+            <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 60, paddingHorizontal: 160 }}>
+                <Button style={styles.button} title={'돌아가기'} onPress={() => navigation.navigate('House_Home_Page')} />
             </View>
-            
-            <View style={styles.button}>
-                <Button title={'돌아가기'} onPress={() => navigation.navigate('House_Home_Page')}/>
-            </View>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-  inputContainer: {
-    paddingTop: 60,
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  container: {
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
   button: {
     marginTop: 30,
     marginRight: 10,
@@ -81,20 +97,6 @@ const styles = StyleSheet.create({
     width: 100,
     alignItems: 'center',
   },
-  buttonText: {
-    textAlign: 'center',
-    paddingRight: 60,
-    paddingLeft: 60,
-    paddingTop: 10,
-    paddingBottom: 10,
-    color: 'white'
-  },
-  input: {
-      borderBottomColor: '#bbb',
-      borderBottomWidth: 1,
-      fontSize: 24,
-      marginLeft: 20,
-  }
 });
 
 export default House_Home_Result;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, SafeAreaView, View, Button } from 'react-native';
-import { Image, Text, Icon } from 'react-native-elements'
-import * as textUtil from './text.js'
+import { Image, Text, Icon } from 'react-native-elements';
+import * as textUtil from './text.js';
 
 const House_Date_Result = ({ route, navigation }) => {
     /**
@@ -97,15 +97,6 @@ const House_Date_Result = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        paddingTop: 60,
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    container: {
-        alignItems: 'center',
-        flexDirection: 'row',
-    },
     button: {
         marginTop: 30,
         marginRight: 10,
@@ -114,20 +105,6 @@ const styles = StyleSheet.create({
         width: 100,
         alignItems: 'center',
     },
-    buttonText: {
-        textAlign: 'center',
-        paddingRight: 60,
-        paddingLeft: 60,
-        paddingTop: 10,
-        paddingBottom: 10,
-        color: 'white'
-    },
-    input: {
-        borderBottomColor: '#bbb',
-        borderBottomWidth: 1,
-        fontSize: 24,
-        marginLeft: 20,
-    }
 });
 
 export default House_Date_Result;
