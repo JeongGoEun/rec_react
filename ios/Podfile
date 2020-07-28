@@ -12,6 +12,8 @@ target 'rec_react' do
 
   pod 'RNSketchCanvas', :path => '../node_modules/@terrylinla/react-native-sketch-canvas'
 
+  pod 'RNFS', :path => '../node_modules/react-native-fs'
+
   target 'rec_reactTests' do
     inherit! :complete
     # Pods for testing

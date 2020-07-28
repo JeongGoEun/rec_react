@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
 import { Button, Text, View, StyleSheet, Alert } from 'react-native';
 import Modal from 'react-native-modal';
-import RNSketchCanvas  from '@terrylinla/react-native-sketch-canvas';
+import RNSketchCanvas from '@terrylinla/react-native-sketch-canvas';
 
+// require the module
+var RNFS = require('react-native-fs');
 
 export default class SketchModal extends Component {
     state = {
         isModalVisible: false,
     };
+
+    // /storage/emulated/0/Pictures/RNSketchCanvas/21997947.png
+    componentDidMount() {
+        console.log(RNFS.ExternalStorageDirectoryPath+'/Pictures/RNSketchCanvas')
+        RNFS.readDir(RNFS.ExternalStorageDirectoryPath+'/Pictures/RNSketchCanvas') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
+            .then((result) => {
+                console.log('GOT RESULT', result);
+
+                // stat the first file
+                return Promise.all([RNFS.stat(result[0].path), result[0].path]);
+            })
+            .catch((err) => {
+                console.log(err.message, err.code);
+            });
+    }
 
     toggleModal = () => {
         this.setState({ isModalVisible: !this.state.isModalVisible });
@@ -22,7 +39,7 @@ export default class SketchModal extends Component {
                         <View style={styles.container}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <RNSketchCanvas
-                                    
+
                                     containerStyle={{ backgroundColor: 'transparent', flex: 1 }}
                                     canvasStyle={{ backgroundColor: 'transparent', flex: 1 }}
                                     defaultStrokeIndex={0}
@@ -56,7 +73,7 @@ export default class SketchModal extends Component {
                                             imageType: 'png'
                                         }
                                     }}
-                                    onSketchSaved={(success, path) => {Alert.alert(success? 'saved!'+path: 'failed')}}
+                                    onSketchSaved={(success, path) => { Alert.alert(success ? 'saved!' + path : 'failed') }}
                                 />
                             </View>
                         </View>
