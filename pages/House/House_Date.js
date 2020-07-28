@@ -16,7 +16,7 @@ const House_Date = ({ navigation }) => {
             for(var i = 0; i<text.length; i++){
                 if(numbers.indexOf(text[i])>-1){
                     newText = newText + text[i];
-                }
+             b   }
                 else{
                     alert("please enter numbers only");
                 }

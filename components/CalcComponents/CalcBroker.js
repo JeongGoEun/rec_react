@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import { Icon, ButtonGroup, Input, Button } from 'react-native-elements'
-
 import CalcStyle from '../styles/style';
+import SketchModal from '../SketchModal';
 
 // 중개 수수료
 class CalcBroker extends React.Component {
@@ -110,7 +110,7 @@ class CalcBroker extends React.Component {
                             </View>
                             : <View></View>}
                     </View>
-                    <View style={{flex: 1,paddingHorizontal: 120,  justifyContent: "flex-end"}}>
+                    <View style={{flex: 1, paddingHorizontal: 100,  justifyContent: "flex-end"}}>
                         <Button
                             icon={
                                 <Icon type='ionicon' name='calculator' style={{ alignSelf: "flex-end", marginRight: 7 }} />
@@ -126,6 +126,8 @@ class CalcBroker extends React.Component {
                               }}
                         />
                     </View>
+                    <SketchModal />
+
                 </View>
             </ScrollView>
         );
