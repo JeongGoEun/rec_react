@@ -2,6 +2,7 @@ package com.rec_react;
 
 import com.facebook.react.ReactActivity;
 
+
 public class MainActivity extends ReactActivity {
 
   /**
