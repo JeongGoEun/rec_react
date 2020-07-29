@@ -15,6 +15,11 @@ export default class SketchModal extends Component {
         imageURI: '',
     };
 
+    constructor(props) {
+        super(props)
+        console.log('SketchModal constructor',props);
+    }
+
     _getData = async () => {
         var uri = 'file://' + this.state.imageURI;
         console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..file uri:', uri)

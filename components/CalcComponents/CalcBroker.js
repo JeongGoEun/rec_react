@@ -22,6 +22,7 @@ class CalcBroker extends React.Component {
         console.log('CalcBroker: ',JSON.stringify(props));
         this.state = {
             // index는 0부터 시작
+            isUpdate: false,
             selectedIndex: 0,
             houseIndex: 0,
         }
@@ -43,6 +44,15 @@ class CalcBroker extends React.Component {
     updateHouseIndex = (houseIndex) => {
         this.data.result.houseId = houseIndex;
         this.setState({ houseIndex: houseIndex });
+    }
+
+    updateText = (id) => {
+        console.log('Modal Result: ',id);
+        // if(fee) {
+
+        // }else{
+        //     //monthly
+        // }
     }
 
     render() {
@@ -100,7 +110,7 @@ class CalcBroker extends React.Component {
                                     onChangeText = {text => this.data.result.fee = parseInt(text)}
                                 />
                             </View>
-                            <SketchModal />
+                            <SketchModal id={'fee'}/>
                         </View>                        
                         {this.state.selectedIndex == 2 ?
                             <View style={{ flexDirection: "row", marginBottom: 6 }}>
@@ -112,7 +122,7 @@ class CalcBroker extends React.Component {
                                         onChangeText = {text => this.data.result.monthlyFee = parseInt(text)}
                                     />
                                 </View>
-                                <SketchModal />
+                                <SketchModal id={'monthly'}/>
                             </View>
                             : <View></View>}
                     </View>
