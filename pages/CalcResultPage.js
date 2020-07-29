@@ -4,8 +4,6 @@ import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-componen
 import { Button, Text,Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 
-import calcStyle from '../components/styles/style'
-
 import * as util from '../components/CalcComponents/util'
 import * as textUtil from '../components/CalcComponents/text'
 
@@ -47,7 +45,6 @@ class CalcResultPage extends React.Component {
                 this.getSubscriptionFee();      // 청약 가점 계산
                 break;
             case 4:
-                console.log(this.data.result)
                 this.getLtv();      // 주택담보 대출비율
                 break;
             case 5:
@@ -352,8 +349,48 @@ class CalcResultPage extends React.Component {
                                 ['담보가능금액',possible_loan],
                                 ['LTV', this.data.score]];   
         }
+    }
 
-        
+    getRent = () => {   // 5. 전/월세 전환
+        const result = this.data.result;
+        var proper_deposit_monthly = 0;     //적정 월세 보증금
+        var proper_deposit_long_term = 0;   //적정 전세 보증금
+
+        if(result.convertIndex == 1){ //월세 -> 전세
+            proper_deposit_long_term = parseInt((result.payment_monthly * 12 / result.conversion_rate * 100) + result.deposit_monthly);
+            this.data.tableHead = ['#', '적요', '금액'];
+            this.data.tableTitle = ['1', '2', '3', '4'];
+            this.data.tableData = [['전월세전환율', result.conversion_rate],
+                                ['현재 월세', result.payment_monthly],
+                                ['현재 월세 보증금', result.deposit_monthly],
+                                ['적정 전세 보증금', proper_deposit_long_term]];
+        }
+        else{
+            proper_deposit_monthly = parseInt(result.deposit_long_term - (result.payment_monthly * 12 / result.conversion_rate * 100));
+            this.data.tableHead = ['#', '적요', '금액'];
+            this.data.tableTitle = ['1', '2', '3', '4'];
+            this.data.tableData = [['전월세전환율', result.conversion_rate],
+                                ['현재 전세 보증금', result.deposit_long_term],
+                                ['원하는 월세', result.payment_monthly],
+                                ['적정 월세 보증금', proper_deposit_monthly]];
+        }
+    }
+
+    getLease = () => {  // 6. 임대수익률
+        const result = this.data.result;
+        var rental_yield = 0.0;     //임대수익률
+        if(result.checked == true){ //대출 있을 시 임대수익률
+            rental_yield = ((result.rent_monthly * 12) - (result.amount_loan * result.rate_loan_interest / 100)) / (result.price_purchase - result.deposit_total - result.fee_additional - result.amount_loan) * 100;
+        }
+        else{                       //대출 없을 시 임대수익률
+            rental_yield = (result.rent_monthly * 12) / (result.price_purchase - result.deposit_total - result.fee_additional) * 100;
+        }
+        rental_yield = rental_yield.toFixed(3);
+        this.data.tableHead = ['#', '적요', '금액'];
+        this.data.tableTitle = ['1'];
+        this.data.tableData = [
+            ['임대수익률', rental_yield],
+        ];
     }
 
     render() {

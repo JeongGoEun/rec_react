@@ -7,9 +7,9 @@ class CalcRent extends React.Component {
     data = {
         inputTextHeader: '전월세전환율(단위: %, 상한선: 4%)',
         result: {
-            id: 5,  // 전/월세 변환은 아이디가 5
+            id: 5,                  // 전/월세 변환은 아이디가 5
             convertIndex: 0,        //0:전세 -> 월세, 1:월세 -> 전세
-            conversion_rate: 0.0,     //전월세전환율
+            conversion_rate: 0.0,   //전월세전환율
             payment_monthly: 0,     //월세
             deposit_monthly: 0,     //월세 보증금
             deposit_long_term: 0,   //전세 보증금
@@ -53,11 +53,11 @@ class CalcRent extends React.Component {
                     </View>
                 </View>
 
-                <View style={{ paddingHorizontal: 16, flex: 1, marginBottom: 10 }}>
-                    <View style={{ }}>
+                <View style={{ paddingHorizontal: 16, flex: 1 }}>
+                    <View style={{marginTop: 9, marginBottom: 9}}>
                         <ButtonGroup
                             onPress={this.updateConvertIndex}
-                            convertIndex={convertIndex}
+                            selectedIndex={convertIndex}
                             buttons={convertButtons}
                             containerStyle={{ height: 30 }}
                             selectedButtonStyle={{backgroundColor: '#FFBC00'}}

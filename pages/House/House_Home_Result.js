@@ -33,14 +33,6 @@ const House_Home_Result = ({ route, navigation }) => {
         result.unit_second = result.money;
         result.idx = parseInt(Math.floor(Math.random()*5) + 1);
     }
-    console.log(result);
-
-
-    //const img_path = '../../images/number';
-    // console.log(textUtil.homeAddr.address[0]);
-    // console.log(textUtil.homeAddr.address[1]);
-
-    const tt = (data.date_year+data.date_month).toString();
 
     return (
         <SafeAreaView style={{ flex: 1 }}>

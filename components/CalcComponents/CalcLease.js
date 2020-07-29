@@ -7,7 +7,7 @@ class CalcLease extends React.Component {
     data = {
         inputTextHeader: '매입가격(단위: 만원)',
         result: {
-            id: 6,  // 임대수익률은 아이디가 5
+            id: 6,                      // 임대수익률은 아이디가 6
             checked: false,             //false: 대출x, true: 대출o
             price_purchase: 0,          //매입가격
             deposit_total: 0,           //보증금 총액
