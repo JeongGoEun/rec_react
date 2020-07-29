@@ -9,15 +9,23 @@ import RNSketchCanvas from '@terrylinla/react-native-sketch-canvas';
 var RNFS = require('react-native-fs');
 
 export default class SketchModal extends Component {
-    state = {
-        isModalVisible: false,
-        isSave: false,
-        imageURI: '',
-    };
+    data = {
+        id: '',
+        ocr_result: 0,
+    }
 
     constructor(props) {
-        super(props)
-        console.log('SketchModal constructor',props);
+        super(props);
+        this.state = {
+            isModalVisible: false,
+            isSave: false,
+            imageURI: '',
+        };
+    }
+
+    componentDidUpdate() {
+        this.data.id = this.props.id;
+        console.log('SketchModal componentDidUpdate',this.props);
     }
 
     _getData = async () => {
@@ -39,8 +47,11 @@ export default class SketchModal extends Component {
         if (r.status != 200) { // 200 : ok
             throw new Error(r.statusText);
         }
-        const ocr_result = await r.json()
-        console.log('_getData', ocr_result);    //부모 parent에 전달해야 할 결과 값
+        var result = await r.json()
+        this.data.ocr_result = result;
+
+        console.log('_getData', this.data.ocr_result);    //부모 parent에 전달해야 할 결과 값
+        this.props.updateText(this.data.id,this.data.ocr_result);
     }
 
     toggleModal = () => {
@@ -68,7 +79,7 @@ export default class SketchModal extends Component {
                                     containerStyle={{ backgroundColor: 'transparent', flex: 1, marginHorizontal: 30 }}
                                     canvasStyle={{ backgroundColor: 'transparent', flex: 1, borderWidth: 1 }}
                                     defaultStrokeIndex={0}
-                                    defaultStrokeWidth={30}
+                                    defaultStrokeWidth={15}
                                     undoComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Undo</Text></View>}
                                     clearComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Clear</Text></View>}
                                     eraseComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Eraser</Text></View>}

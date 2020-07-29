@@ -25,6 +25,8 @@ class CalcBroker extends React.Component {
             isUpdate: false,
             selectedIndex: 0,
             houseIndex: 0,
+            fee: '',
+            monthly: ''
         }
     }
 
@@ -46,14 +48,21 @@ class CalcBroker extends React.Component {
         this.setState({ houseIndex: houseIndex });
     }
 
-    updateText = (id) => {
-        console.log('Modal Result: ',id);
-        // if(fee) {
-
-        // }else{
-        //     //monthly
-        // }
+    updateText = (id, text) => {
+        console.log('update Text with OCR result: ',id, text);
+        if(id === 'fee') {
+            // 첫번째 input 바꾸기
+            this.setState({fee: text.data})
+        }else{
+            // 두번째 input 바꾸기
+            this.setState({monthly: text.data})
+        }
     }
+
+    // onChageText = (text) => {
+    //     console.log('on change text--------> ', text);
+    //     this.data.result.fee = parseInt(text);
+    // }
 
     render() {
         const contractButtons = ['매매계약', '전세계약', '월세계약'];
@@ -107,10 +116,14 @@ class CalcBroker extends React.Component {
                                     placeholder='금액 입력'
                                     label={this.data.result.headerText}
                                     style={{ marginBottom: 7, fontSize: 10 }}
-                                    onChangeText = {text => this.data.result.fee = parseInt(text)}
+                                    value={this.state.fee}
+                                    onChangeText = {text => {
+                                        this.data.result.fee = parseInt(text)
+                                        this.setState({fee: text});
+                                    }}
                                 />
                             </View>
-                            <SketchModal id={'fee'}/>
+                            <SketchModal id={'fee'} updateText = {this.updateText}/>
                         </View>                        
                         {this.state.selectedIndex == 2 ?
                             <View style={{ flexDirection: "row", marginBottom: 6 }}>
@@ -119,7 +132,11 @@ class CalcBroker extends React.Component {
                                         placeholder='금액 입력'
                                         label='월세'
                                         style={{ marginBottom: 7, fontSize: 10 }}
-                                        onChangeText = {text => this.data.result.monthlyFee = parseInt(text)}
+                                        value={this.state.monthly}
+                                        onChangeText = {text => {
+                                            this.data.result.monthlyFee = parseInt(text)
+                                            this.setState({monthly: text})
+                                        }}
                                     />
                                 </View>
                                 <SketchModal id={'monthly'}/>
