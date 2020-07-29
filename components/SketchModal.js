@@ -9,25 +9,43 @@ var RNFS = require('react-native-fs');
 export default class SketchModal extends Component {
     state = {
         isModalVisible: false,
+        isSave: false,
+        imageURI: '',
     };
 
-    // /storage/emulated/0/Pictures/RNSketchCanvas/21997947.png
-    componentDidMount() {
-        console.log(RNFS.ExternalStorageDirectoryPath+'/Pictures/RNSketchCanvas')
-        RNFS.readDir(RNFS.ExternalStorageDirectoryPath+'/Pictures/RNSketchCanvas') // On Android, use "RNFS.DocumentDirectoryPath" (MainBundlePath is not defined)
-            .then((result) => {
-                console.log('GOT RESULT', result);
+    // onSketchSaved = (success, path) => {
+    //     console.log('onSketchSaved>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>', path);
+    // }
 
-                // stat the first file
-                return Promise.all([RNFS.stat(result[0].path), result[0].path]);
-            })
-            .catch((err) => {
-                console.log(err.message, err.code);
-            });
+    _getData = async () => {
+        var uri = 'file://' + this.state.imageURI;
+        console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>..file uri:',uri)
+        const base64 = await RNFS.readFile(uri, 'base64')
+        //const buf = Buffer.from(base64, 'base64')
+        var buffer = {result: base64 }
+        //console.log("buffer : ", buffer)
+        const r = await fetch('http://192.168.100.189:4548/image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Access-Control-Origin': '*'
+          },
+          body: JSON.stringify(buffer),
+          //body: JSON.stringify(data)
+        })
+        if(r.status != 200) { // 200 : ok
+          throw new Error(r.statusText);
+        }
+        const ocr_result = await r.json()
+        console.log('_getData', ocr_result);    //부모 parent에 전달해야 할 결과 값
     }
 
     toggleModal = () => {
-        this.setState({ isModalVisible: !this.state.isModalVisible });
+        console.log('toggleModal',this.state.isModalVisible);
+        // fetch
+        this.setState({ 
+            isModalVisible: !this.state.isModalVisible,
+        });
     };
 
     render() {
@@ -39,32 +57,14 @@ export default class SketchModal extends Component {
                         <View style={styles.container}>
                             <View style={{ flex: 1, flexDirection: 'row' }}>
                                 <RNSketchCanvas
-
                                     containerStyle={{ backgroundColor: 'transparent', flex: 1 }}
                                     canvasStyle={{ backgroundColor: 'transparent', flex: 1 }}
                                     defaultStrokeIndex={0}
-                                    defaultStrokeWidth={8}
-                                    undoComponent={<View style={styles.functionButton}><Text style={{ color: 'white' }}>Undo</Text></View>}
-                                    clearComponent={<View style={styles.functionButton}><Text style={{ color: 'white' }}>Clear</Text></View>}
-                                    eraseComponent={<View style={styles.functionButton}><Text style={{ color: 'white' }}>Eraser</Text></View>}
-                                    strokeComponent={color => (
-                                        <View style={[{ backgroundColor: color }, styles.strokeColorButton]} />
-                                    )}
-                                    strokeSelectedComponent={(color, index, changed) => {
-                                        return (
-                                            <View style={[{ backgroundColor: color, borderWidth: 2 }, styles.strokeColorButton]} />
-                                        )
-                                    }}
-                                    strokeWidthComponent={(w) => {
-                                        return (<View style={styles.strokeWidthButton}>
-                                            <View style={{
-                                                backgroundColor: 'white', marginHorizontal: 2.5,
-                                                width: Math.sqrt(w / 3) * 10, height: Math.sqrt(w / 3) * 10, borderRadius: Math.sqrt(w / 3) * 10 / 2
-                                            }} />
-                                        </View>
-                                        )
-                                    }}
-                                    saveComponent={<View style={styles.functionButton}><Text style={{ color: 'white' }}>Save</Text></View>}
+                                    defaultStrokeWidth={10}
+                                    undoComponent={this.state.isSave ? <View/> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Undo</Text></View>}
+                                    clearComponent={this.state.isSave ? <View/> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Clear</Text></View>}
+                                    eraseComponent={this.state.isSave ? <View/> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Eraser</Text></View>}
+                                    saveComponent={this.state.isSave ? <View/> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Save</Text></View>}
                                     savePreference={() => {
                                         return {
                                             folder: 'RNSketchCanvas',
@@ -73,10 +73,17 @@ export default class SketchModal extends Component {
                                             imageType: 'png'
                                         }
                                     }}
-                                    onSketchSaved={(success, path) => { Alert.alert(success ? 'saved!' + path : 'failed') }}
+                                    //onSketchSaved={(success, path) => {this.onSketchSaved} }
+                                    onSketchSaved={(success, path) => { 
+                                        //Alert.alert(success ? 'saved!' + path : 'failed');
+                                        this.state.imageURI = path;
+                                        this._getData();
+                                        this.toggleModal();
+                                     }}
                                 />
                             </View>
                         </View>
+
                         <Button title="돌아가기" onPress={this.toggleModal} />
                     </View>
                 </Modal>
@@ -87,7 +94,7 @@ export default class SketchModal extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#F5FCFF',
+        flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff',
     },
     strokeColorButton: {
         marginHorizontal: 2.5, marginVertical: 8, width: 30, height: 30, borderRadius: 15,
@@ -98,6 +105,6 @@ const styles = StyleSheet.create({
     },
     functionButton: {
         marginHorizontal: 2.5, marginVertical: 8, height: 30, width: 60,
-        backgroundColor: '#39579A', justifyContent: 'center', alignItems: 'center', borderRadius: 5,
+        backgroundColor: '#FFBC00', justifyContent: 'center', alignItems: 'center', borderRadius: 5,
     }
 });
