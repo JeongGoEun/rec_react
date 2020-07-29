@@ -63,7 +63,7 @@ export default class SketchModal extends Component {
                                     containerStyle={{ backgroundColor: 'transparent', flex: 1, marginHorizontal: 30 }}
                                     canvasStyle={{ backgroundColor: 'transparent', flex: 1, borderWidth: 1 }}
                                     defaultStrokeIndex={0}
-                                    defaultStrokeWidth={10}
+                                    defaultStrokeWidth={30}
                                     undoComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Undo</Text></View>}
                                     clearComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Clear</Text></View>}
                                     eraseComponent={this.state.isSave ? <View /> : <View style={styles.functionButton}><Text style={{ color: 'white' }}>Eraser</Text></View>}

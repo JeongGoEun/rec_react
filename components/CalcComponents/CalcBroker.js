@@ -104,12 +104,15 @@ class CalcBroker extends React.Component {
                         </View>                        
                         {this.state.selectedIndex == 2 ?
                             <View style={{ flexDirection: "row", marginBottom: 6 }}>
-                                <Input
-                                    placeholder='금액 입력'
-                                    label='월세'
-                                    style={{ marginBottom: 7, fontSize: 10 }}
-                                    onChangeText = {text => this.data.result.monthlyFee = parseInt(text)}
-                                />
+                                <View style={{flex: 1}}>
+                                    <Input
+                                        placeholder='금액 입력'
+                                        label='월세'
+                                        style={{ marginBottom: 7, fontSize: 10 }}
+                                        onChangeText = {text => this.data.result.monthlyFee = parseInt(text)}
+                                    />
+                                </View>
+                                <SketchModal />
                             </View>
                             : <View></View>}
                     </View>
