@@ -360,19 +360,19 @@ class CalcResultPage extends React.Component {
             proper_deposit_long_term = parseInt((result.payment_monthly * 12 / result.conversion_rate * 100) + result.deposit_monthly);
             this.data.tableHead = ['#', '적요', '금액'];
             this.data.tableTitle = ['1', '2', '3', '4'];
-            this.data.tableData = [['전월세전환율', result.conversion_rate],
-                                ['현재 월세', result.payment_monthly],
-                                ['현재 월세 보증금', result.deposit_monthly],
-                                ['적정 전세 보증금', proper_deposit_long_term]];
+            this.data.tableData = [['전월세전환율', result.conversion_rate.toString()+'%'],
+                                ['현재 월세', result.payment_monthly.toString() + ' 만원'],
+                                ['현재 월세 보증금', result.deposit_monthly.toString() + ' 만원'],
+                                ['적정 전세 보증금', proper_deposit_long_term.toString() + ' 만원']];
         }
         else{
             proper_deposit_monthly = parseInt(result.deposit_long_term - (result.payment_monthly * 12 / result.conversion_rate * 100));
             this.data.tableHead = ['#', '적요', '금액'];
             this.data.tableTitle = ['1', '2', '3', '4'];
-            this.data.tableData = [['전월세전환율', result.conversion_rate],
-                                ['현재 전세 보증금', result.deposit_long_term],
-                                ['원하는 월세', result.payment_monthly],
-                                ['적정 월세 보증금', proper_deposit_monthly]];
+            this.data.tableData = [['전월세전환율', result.conversion_rate.toString() +' %'],
+                                ['현재 전세 보증금', result.deposit_long_term.toString() + ' 만원'],
+                                ['원하는 월세', result.payment_monthly.toString() + ' 만원'],
+                                ['적정 월세 보증금', proper_deposit_monthly.toString() + ' 만원']];
         }
     }
 
@@ -380,7 +380,7 @@ class CalcResultPage extends React.Component {
         const result = this.data.result;
         var rental_yield = 0.0;     //임대수익률
         if(result.checked == true){ //대출 있을 시 임대수익률
-            rental_yield = ((result.rent_monthly * 12) - (result.amount_loan * result.rate_loan_interest / 100)) / (result.price_purchase - result.deposit_total - result.fee_additional - result.amount_loan) * 100;
+            rental_yield = ((result.rent_monthly * 12) - (result.amount_loan * result.rate_loan_interest  / 100)) / (result.price_purchase - result.deposit_total - result.fee_additional - result.amount_loan) * 100;
         }
         else{                       //대출 없을 시 임대수익률
             rental_yield = (result.rent_monthly * 12) / (result.price_purchase - result.deposit_total - result.fee_additional) * 100;
@@ -389,7 +389,7 @@ class CalcResultPage extends React.Component {
         this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1'];
         this.data.tableData = [
-            ['임대수익률', rental_yield],
+            ['임대수익률', rental_yield.toString() + ' %'],
         ];
     }
 
