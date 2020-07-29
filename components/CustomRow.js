@@ -41,7 +41,7 @@ const CustomRow = ({ id, title, opday, company, news_url, image_url }) => {
             <Image source={{ uri: image_url }} style={styles.photo} />
             <View style={styles.container_text}>
                 <Text style={styles.title} numberOfLines={1}>
-                    {id}   {title}
+                    {title}
                 </Text>
                 <Text style={styles.date} numberOfLines={1}>
                     {opday}   {company}

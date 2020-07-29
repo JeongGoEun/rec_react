@@ -148,9 +148,9 @@ class CalcResultPage extends React.Component {
         this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1', '2', '3'];
         this.data.tableData = [
-            [data.headerText.substr(0, 3), util.convertMoney(data.fee * 10000)],
-            ['상한요율', payRate.toFixed(1)],
-            ['중개수수료', util.convertMoney(parseInt(result * 10000))]
+            [data.headerText.substr(0, 3), data.fee+"만원"],
+            ['상한요율', payRate.toFixed(1)+'%'],
+            ['중개수수료', result+"만원"]
         ];
     }
 
@@ -189,10 +189,10 @@ class CalcResultPage extends React.Component {
         this.data.tableHead = ['#', '적요', '금액'];
         this.data.tableTitle = ['1', '2', '3', '4'];
         this.data.tableData = [
-            ['보증금', util.convertMoney(result.fee * 10000)],
-            ['정기예금이율', result.rate],
-            ['기준금액', util.convertMoney(referAmount * 10000)],
-            ['간주임대료', util.convertMoney(parseInt(conRentFee))]
+            ['보증금', result.fee+"만원"],
+            ['정기예금이율', result.rate+'%'],
+            ['기준금액', referAmount+'만원'],
+            ['간주임대료', (parseInt(conRentFee)/10000)+'만원']
         ];
         // 기간 지정 시
         if (result.termIndex == 1) {
