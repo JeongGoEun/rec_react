@@ -77,6 +77,6 @@ export default class NewsPage extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFD400',
+    backgroundColor: '#E0E0E0',
   }
 });
