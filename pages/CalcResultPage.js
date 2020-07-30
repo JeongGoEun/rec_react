@@ -146,10 +146,11 @@ class CalcResultPage extends React.Component {
         }
         payRate *= 100;
         this.data.tableHead = ['#', '적요', '금액'];
-        this.data.tableTitle = ['1', '2', '3'];
+        this.data.tableTitle = ['1', '2', '3', '4'];
         this.data.tableData = [
             [data.headerText.substr(0, 3), data.fee+"만원"],
             ['상한요율', payRate.toFixed(1)+'%'],
+            ['기준금액', transactionValue+'만원'],
             ['중개수수료', result+"만원"]
         ];
     }

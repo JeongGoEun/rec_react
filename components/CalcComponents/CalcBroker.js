@@ -52,9 +52,11 @@ class CalcBroker extends React.Component {
         console.log('update Text with OCR result: ',id, text);
         if(id === 'fee') {
             // 첫번째 input 바꾸기
+            this.data.result.fee = parseInt(text.data);
             this.setState({fee: text.data})
         }else{
             // 두번째 input 바꾸기
+            this.data.result.monthlyFee = parseInt(text.data);
             this.setState({monthly: text.data})
         }
     }
@@ -139,7 +141,7 @@ class CalcBroker extends React.Component {
                                         }}
                                     />
                                 </View>
-                                <SketchModal id={'monthly'}/>
+                                <SketchModal id={'monthly'} updateText = {this.updateText}/>
                             </View>
                             : <View></View>}
                     </View>
