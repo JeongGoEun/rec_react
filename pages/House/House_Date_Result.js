@@ -58,7 +58,7 @@ const House_Date_Result = ({ route, navigation }) => {
     else if(data.year==3){  //4년 미만
         data.coments_num = 4;
     }
-    else{                   //4년 1개월 이상
+    else{                   //4년 0개월 이상
         data.coments_num = 5;
     }
 
