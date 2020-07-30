@@ -1,7 +1,7 @@
 // React Native Navigation Drawer – Example using Latest Navigation Version //
 // https://aboutreact.com/react-native-navigation-drawer //
 import * as React from 'react';
-import { Button, View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, SafeAreaView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
 const HousePage = ({ navigation }) => {
   return (
@@ -91,15 +91,17 @@ const styles = StyleSheet.create({
   },
   button: {
     alignItems: 'center',
-    backgroundColor: '#2196F3'
+    backgroundColor: '#FFBC00',
+    borderRadius: 10
   },
   buttonText: {
     textAlign: 'center',
-    paddingRight: 60,
-    paddingLeft: 60,
+    paddingRight: 50,
+    paddingLeft: 50,
     paddingTop: 10,
     paddingBottom: 10,
-    color: 'white'
+    color: 'white',
+    fontSize: 18,
   },
 });
 
