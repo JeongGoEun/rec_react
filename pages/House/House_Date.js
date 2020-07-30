@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const House_Date = ({ navigation }) => {
     const [date_data, setValues] = useState ({
@@ -64,55 +65,57 @@ const House_Date = ({ navigation }) => {
     };
 
     return (
-        <View style={styles.inputContainer}>
-            <View style={{alignItems: "center", paddingTop: 10}}>
-                <Image
-                    source={require('../../images/img_home_date.jpg')}
-                    style={{ width: 240, height: 240, resizeMode: 'contain', borderRadius: 15 }}
-                />
+        <ScrollView>
+            <View style={styles.inputContainer}>
+                <View style={{alignItems: "center", paddingTop: 10}}>
+                    <Image
+                        source={require('../../images/img_home_date.jpg')}
+                        style={{ width: 240, height: 240, resizeMode: 'contain', borderRadius: 15 }}
+                    />
+                </View>
+                <View style={styles.container}>
+                    <Text style = {styles.text_container1}>목표금액</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="0"
+                        placeholderTextColor={'#999'}
+                        autoCorrect={false}
+                        value = {date_data.amount_wanted}
+                        onChangeText = {onChange_amount_wanted}
+                    />
+                    <Text style = {styles.text_container}>만원</Text>
+                </View>
+                <View style={styles.container}>
+                    <Text style = {styles.text_container2}>투자가능금액(월)</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="0"
+                        placeholderTextColor={'#999'}
+                        autoCorrect={false}
+                        value = {date_data.amount_investment}
+                        onChangeText = {onChange_amount_investment}
+                    />
+                    <Text style = {styles.text_container}>만원</Text>
+                </View>
+                <View style={styles.container}>
+                    <Text style = {styles.text_container3}>보유금액(대출포함)</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="0"
+                        placeholderTextColor={'#999'}
+                        autoCorrect={false}
+                        value = {date_data.amount_holding}
+                        onChangeText = {onChange_amount_holding}
+                    />
+                    <Text style = {styles.text_container}>만원</Text>
+                </View>
+                <TouchableOpacity onPress={() => navigation.navigate('House_Date_Result_Page', date_data)}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>분석하기</Text>
+                    </View>          
+                </TouchableOpacity> 
             </View>
-            <View style={styles.container}>
-                <Text style = {styles.text_container1}>목표금액</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {date_data.amount_wanted}
-                    onChangeText = {onChange_amount_wanted}
-                />
-                <Text style = {styles.text_container}>만원</Text>
-            </View>
-            <View style={styles.container}>
-                <Text style = {styles.text_container2}>투자가능금액(월)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {date_data.amount_investment}
-                    onChangeText = {onChange_amount_investment}
-                />
-                <Text style = {styles.text_container}>만원</Text>
-            </View>
-            <View style={styles.container}>
-                <Text style = {styles.text_container3}>보유금액(대출포함)</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="0"
-                    placeholderTextColor={'#999'}
-                    autoCorrect={false}
-                    value = {date_data.amount_holding}
-                    onChangeText = {onChange_amount_holding}
-                />
-                <Text style = {styles.text_container}>만원</Text>
-            </View>
-            <TouchableOpacity onPress={() => navigation.navigate('House_Date_Result_Page', date_data)}>
-                <View style={styles.button}>
-                    <Text style={styles.buttonText}>분석하기</Text>
-                </View>          
-            </TouchableOpacity> 
-        </View>
+        </ScrollView>
     );
 };
 
