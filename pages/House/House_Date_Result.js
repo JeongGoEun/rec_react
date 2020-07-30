@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, View, Button } from 'react-native';
+import { StyleSheet, SafeAreaView, View, TouchableOpacity } from 'react-native';
 import { Image, Text, Icon } from 'react-native-elements';
 import * as textUtil from './text.js';
 
@@ -87,23 +87,34 @@ const House_Date_Result = ({ route, navigation }) => {
                         <Text style={{ fontSize: 15}}>{textUtil.numberUri.coments[data.coments_num]}</Text>
                     </View>
                 </View>
-            </View>
-
-            <View style={{ flex: 1, justifyContent: "flex-end", marginBottom: 60, paddingHorizontal: 160 }}>
-                <Button style={styles.button} title={'돌아가기'} onPress={() => navigation.navigate('House_Date_Page')} />
-            </View>
+            </View>            
+            <View style={{ flex: 1, marginBottom: 60, paddingHorizontal: 145 }}>
+                <TouchableOpacity onPress={() => navigation.navigate('House_Date_Page')}>
+                    <View style={styles.button}>
+                        <Text style={styles.buttonText}>돌아가기</Text>
+                    </View>          
+                </TouchableOpacity> 
+            </View>            
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     button: {
-        marginTop: 30,
-        marginRight: 10,
-        marginLeft: 10,
-        marginBottom: 30,
-        width: 100,
         alignItems: 'center',
+        backgroundColor: '#FFBC00',
+        borderRadius: 10,
+        marginBottom: 130,
+        width: 130,
+    },
+    buttonText: {
+        textAlign: 'center',
+        paddingRight: 30,
+        paddingLeft: 30,
+        paddingTop: 10,
+        paddingBottom: 10,
+        color: 'white',
+        fontSize: 16,
     },
 });
 
