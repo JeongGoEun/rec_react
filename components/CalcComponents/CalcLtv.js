@@ -83,6 +83,7 @@ class CalcLtv extends React.Component {
                             selectedIndex={etc_checked}
                             buttons={contractButtons}
                             containerStyle={{ height: 30 }}
+                            selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                         />
                     </View>
 
@@ -96,6 +97,7 @@ class CalcLtv extends React.Component {
                                 selectedIndex={this.state.area_cehcked}
                                 buttons={houseButtons}
                                 containerStyle={{ height: 30 }}
+                                selectedButtonStyle={{backgroundColor: '#FFBC00'}}
                             />
                         </View>}
 

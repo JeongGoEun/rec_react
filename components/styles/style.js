@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   },
   btnTextColor: {
     color: '#fff',
+    fontSize: 20,
   },
   /**
    * Calc Components Style
